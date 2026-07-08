@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PacRim Recruitment — Apply Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #FFFFFF;
+    --panel: #FFFFFF;
+    --panel-alt: #F3F5F8;
+    --panel-raised: #E9EDF2;
+    --line: #D9DFE6;
+    --line-soft: rgba(15,23,42,0.08);
+    --ink-100: #101828;
+    --ink-300: #47566B;
+    --ink-500: #8592A3;
+    --navy-500: #2C4694;
+    --amber-500: #C9821F;
+    --ink-on-amber: #101828;
+    --amber-600: #A3690F;
+    --amber-glow: rgba(201, 130, 31, 0.35);
+    --success: #35CB93;
+    --success-bg: rgba(53, 203, 147, 0.12);
+    --danger: #FF6E6E;
+    --danger-bg: rgba(255, 110, 110, 0.13);
+    --radius: 14px;
+    --radius-sm: 9px;
+    --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+    --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: var(--void);
+    color: var(--ink-100);
+    line-height: 1.55;
+  }
+
+  /* Flat corporate backdrop */
+  .grid-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: var(--void);
+  }
+
+  .top-band {
+    position: relative;
+    z-index: 1;
+    padding: 52px 24px 76px;
+    overflow: hidden;
+  }
+
+  .top-band-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+  }
+
+  .logo-mark {
+    display: block;
+    height: 46px;
+    width: auto;
+    margin: 0 auto 28px;
+    opacity: 0;
+    animation: riseIn 0.7s 0.05s ease forwards;
+  }
+
+  /* ---- Language switch ---- */
+  .lang-switch-wrap {
+    position: absolute;
+    top: -8px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    opacity: 0;
+    animation: riseIn 0.7s 0.15s ease forwards;
+  }
+
+  .lang-switch {
+    display: flex;
+    gap: 3px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    padding: 4px;
+    backdrop-filter: blur(6px);
+  }
+
+  .lang-switch.nudge { animation: nudgeRing 1.6s ease-in-out 2; }
+
+  @keyframes nudgeRing {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,130,31,0); }
+    50% { box-shadow: 0 0 0 6px rgba(201,130,31,0.22); }
+  }
+
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    background: transparent;
+    color: var(--ink-300);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+
+  .lang-btn:hover { color: var(--ink-100); transform: translateY(-1px); }
+
+  .lang-btn.active {
+    background: var(--amber-500);
+    color: var(--ink-on-amber);
+  }
+
+  .lang-btn .lg-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  .lang-btn.active .lg-dot { opacity: 1; }
+
+  .lang-tooltip {
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    color: var(--ink-100);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 9px 13px;
+    border-radius: 10px;
+    max-width: 200px;
+    text-align: left;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+    position: relative;
+    animation: tooltipFloat 2.4s ease-in-out infinite;
+  }
+
+  .lang-tooltip::after {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 22px;
+    width: 11px;
+    height: 11px;
+    background: var(--panel-raised);
+    border-left: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    transform: rotate(45deg);
+  }
+
+  .lang-tooltip button {
+    background: none;
+    border: none;
+    color: var(--amber-500);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 4px;
+    font-family: var(--font-body);
+  }
+
+  @keyframes tooltipFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  @media (max-width: 560px) {
+    .lang-switch-wrap { position: static; align-items: center; margin-bottom: 22px; }
+    .lang-tooltip { text-align: center; }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(201, 130, 31, 0.1);
+    border: 1px solid rgba(201, 130, 31, 0.35);
+    color: var(--amber-500);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    opacity: 0;
+    animation: riseIn 0.7s 0.2s ease forwards;
+  }
+
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber-500); }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: -0.5px;
+    color: var(--ink-100);
+    opacity: 0;
+    animation: riseIn 0.7s 0.3s ease forwards;
+  }
+
+  .subhead {
+    color: var(--ink-300);
+    font-size: 15.5px;
+    max-width: 480px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: riseIn 0.7s 0.4s ease forwards;
+  }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .job-banner {
+    display: inline-block;
+    background: var(--panel-alt);
+    border: 1px solid var(--amber-500);
+    border-radius: var(--radius-sm);
+    padding: 14px 22px;
+    margin-top: 22px;
+    text-align: left;
+    opacity: 0;
+    animation: riseIn 0.7s 0.45s ease forwards;
+  }
+
+  .job-banner-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--amber-500);
+  }
+
+  .job-banner-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink-100);
+    margin-top: 3px;
+  }
+
+  .job-banner-meta {
+    font-size: 12.5px;
+    color: var(--ink-300);
+    margin-top: 4px;
+  }
+
+  .browse-link {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-300);
+    text-decoration: none;
+    margin-top: 16px;
+    transition: color 0.2s;
+  }
+
+  .browse-link:hover { color: var(--amber-500); }
+
+  .sector-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 26px;
+    opacity: 0;
+    animation: riseIn 0.7s 0.5s ease forwards;
+  }
+
+  .sector-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-300);
+    background: var(--panel-alt);
+    border: 1px solid var(--line-soft);
+    padding: 7px 13px;
+    border-radius: 999px;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .sector-tag:hover {
+    border-color: var(--amber-500);
+    color: var(--ink-100);
+    transform: translateY(-2px);
+  }
+
+  .sector-tag .st-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--amber-500);
+  }
+
+  .form-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: -36px auto 72px;
+    padding: 0 24px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .section {
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 30px 32px;
+    box-shadow: 0 20px 44px rgba(0,0,0,0.28);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .section.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 4px;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    color: var(--amber-500);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    margin-right: 11px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--ink-100);
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .field-grid.single {
+    grid-template-columns: 1fr;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .field.full {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-100);
+  }
+
+  label .req {
+    color: var(--amber-500);
+    margin-left: 2px;
+  }
+
+  label .optional {
+    color: var(--ink-500);
+    font-weight: 500;
+    font-size: 11.5px;
+    margin-left: 4px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea {
+    font-family: var(--font-body);
+    font-size: 14px;
+    padding: 11px 13px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--panel-alt);
+    color: var(--ink-100);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    width: 100%;
+  }
+
+  input::placeholder, textarea::placeholder { color: var(--ink-500); }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2347566B' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    padding-right: 34px;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--amber-500);
+    background: var(--panel-raised);
+    box-shadow: 0 0 0 4px var(--amber-glow);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 84px;
+  }
+
+  .other-input-wrap {
+    margin-top: 8px;
+  }
+
+  .checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+  }
+
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-100);
+    cursor: pointer;
+  }
+
+  .checkbox-option input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--amber-500);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 560px) {
+    .checkbox-group { grid-template-columns: 1fr; }
+  }
+
+  .progress-bar-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 10px 24px;
+  }
+
+  .progress-bar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-label {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-300);
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--panel-alt);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--amber-500), var(--amber-600));
+    border-radius: 999px;
+    width: 16.67%;
+    transition: width 0.35s ease;
+  }
+
+  .trust-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-500);
+    background: var(--panel-alt);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    margin-top: 10px;
+  }
+
+  .trust-line .lock-icon { flex-shrink: 0; margin-top: 1px; }
+
+  .toast.warning { border-left: 3px solid var(--amber-500); }
+
+  .confirmation-panel {
+    text-align: center;
+    padding: 48px 32px 44px;
+  }
+
+  .confirmation-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber-500), var(--amber-600));
+    color: var(--ink-on-amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 auto 20px;
+  }
+
+  .confirmation-panel h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink-100);
+    margin: 0 0 10px;
+  }
+
+  .confirmation-panel p {
+    color: var(--ink-300);
+    font-size: 14.5px;
+    max-width: 440px;
+    margin: 0 auto 22px;
+  }
+
+  .confirmation-id-box {
+    display: inline-block;
+    background: var(--panel-alt);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 22px;
+    margin-bottom: 28px;
+  }
+
+  .confirmation-id-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--ink-500);
+  }
+
+  .confirmation-id-value {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink-100);
+    margin-top: 3px;
+  }
+
+  .confirmation-next {
+    text-align: left;
+    max-width: 420px;
+    margin: 0 auto 28px;
+    background: var(--panel-alt);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    padding: 18px 22px;
+  }
+
+  .confirmation-next-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--ink-100);
+    margin-bottom: 8px;
+  }
+
+  .confirmation-next ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--ink-300);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 560px) {
+    .progress-bar-wrap { padding: 8px 16px; }
+    .progress-label { font-size: 10px; }
+  }
+
+  .help-text {
+    font-size: 12px;
+    color: var(--ink-500);
+    margin-top: 2px;
+  }
+
+  .radio-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-100);
+    cursor: pointer;
+  }
+
+  .radio-option input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--amber-500);
+  }
+
+  .file-drop {
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    background: var(--panel-alt);
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-300);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: block;
+  }
+
+  .file-drop:hover {
+    border-color: var(--amber-500);
+    background: var(--panel-raised);
+  }
+
+  .file-drop input { display: none; }
+
+  .file-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--amber-500);
+    margin-top: 8px;
+  }
+
+  .submit-bar {
+    background: var(--panel);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 26px 32px 30px;
+    box-shadow: 0 20px 44px rgba(0,0,0,0.28);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .submit-bar.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--amber-500), var(--amber-600));
+    color: var(--ink-on-amber);
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 600;
+    border: none;
+    padding: 15px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    box-shadow: 0 10px 26px rgba(201, 130, 31, 0.25);
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(201, 130, 31, 0.35);
+    filter: brightness(1.05);
+  }
+
+  .submit-btn:active { transform: translateY(0) scale(0.99); }
+  .submit-btn:disabled {
+    background: var(--panel-raised);
+    color: var(--ink-500);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .btn-secondary {
+    background: var(--panel-alt);
+    color: var(--ink-100);
+    border: 1px solid var(--line);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 11px 22px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--amber-500); background: var(--panel-raised); }
+
+  .privacy-note {
+    font-size: 11.5px;
+    color: var(--ink-500);
+    text-align: center;
+    margin-top: 14px;
+  }
+
+  /* ---- Toasts ---- */
+  .toast-stack {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: min(380px, calc(100vw - 40px));
+  }
+
+  .toast {
+    position: relative;
+    overflow: hidden;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 14px 40px 14px 16px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-100);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.4);
+    animation: toastIn 0.35s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+
+  .toast.leaving {
+    animation: toastOut 0.3s ease forwards;
+  }
+
+  .toast.success { border-left: 3px solid var(--success); }
+  .toast.error { border-left: 3px solid var(--danger); }
+
+  .toast-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--ink-500);
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px;
+  }
+
+  .toast-close:hover { color: var(--ink-100); }
+
+  .toast-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--amber-500);
+    animation: toastShrink 6s linear forwards;
+  }
+
+  .toast.success .toast-bar { background: var(--success); }
+  .toast.error .toast-bar { background: var(--danger); }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes toastOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(24px); }
+  }
+
+  @keyframes toastShrink {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+
+  @media (max-width: 560px) {
+    .toast-stack { left: 20px; right: 20px; max-width: none; top: auto; bottom: 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .section { padding: 24px 20px; }
+    .submit-bar { padding: 22px 20px 26px; }
+    .top-band { padding: 40px 20px 64px; }
+    h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+  <div class="grid-backdrop"></div>
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+
+  <div class="top-band">
+    <div class="top-band-inner">
+      <div class="lang-switch-wrap" id="langSwitchWrap">
+        <div class="lang-switch" role="group" aria-label="Language / Idioma" id="langSwitch">
+          <button type="button" class="lang-btn active" data-lang="en" id="langBtnEn"><span class="lg-dot"></span>EN</button>
+          <button type="button" class="lang-btn" data-lang="es" id="langBtnEs"><span class="lg-dot"></span>ES</button>
+        </div>
+        <div class="lang-tooltip" id="langTooltip" style="display:none;">
+          <span data-i18n="lang_tooltip">Also available in Spanish · También en español</span>
+          <br><button type="button" id="langTooltipDismiss" data-i18n="lang_tooltip_dismiss">Got it</button>
+        </div>
+      </div>
+      <img src="assets/pacrim-logo.png" alt="Pacific Rim Constructors" class="logo-mark">
+      <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">PacRim Is Hiring</span></span>
+      <h1 data-i18n="h1">Apply for a Role with PacRim</h1>
+      <p class="subhead" data-i18n="subhead">Submit your details below for current and upcoming openings across oil &amp; gas, mining, and renewables projects in Guyana.</p>
+
+      <div class="job-banner" id="jobBanner" style="display:none;">
+        <div class="job-banner-label" data-i18n="applying_for">Applying for</div>
+        <div class="job-banner-title" id="jobBannerTitle"></div>
+        <div class="job-banner-meta" id="jobBannerMeta"></div>
+      </div>
+
+      <div class="sector-tags" id="sectorTags">
+        <span class="sector-tag"><span class="st-dot"></span><span data-i18n="tag_industrial">Industrial</span></span>
+        <span class="sector-tag"><span class="st-dot"></span><span data-i18n="tag_construction">Construction</span></span>
+        <span class="sector-tag"><span class="st-dot"></span><span data-i18n="tag_catering">Catering</span></span>
+        <span class="sector-tag"><span class="st-dot"></span><span data-i18n="tag_remote">Remote Site</span></span>
+        <span class="sector-tag"><span class="st-dot"></span><span data-i18n="tag_supply">Supply Chain</span></span>
+        <span class="sector-tag"><span class="st-dot"></span><span data-i18n="tag_facilities">Facilities Management</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap" id="progressBarWrap">
+    <div class="progress-bar-inner">
+      <span class="progress-label" id="progressLabel">Step 1 of 6</span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+
+  <div class="form-wrap">
+    <form id="applicationForm">
+
+      <!-- Section 1: Personal Info -->
+      <div class="section" data-step="1">
+        <div class="section-title"><span class="section-number">1</span><span data-i18n="s1_title">Your Information</span></div>
+        <div class="field-grid">
+          <div class="field full">
+            <label for="fullName"><span data-i18n="label_fullName">Full Name</span><span class="req">*</span></label>
+            <input type="text" id="fullName" name="fullName" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="email"><span data-i18n="label_email">Email Address</span><span class="req">*</span></label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="phone"><span data-i18n="label_phone">Phone Number</span><span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="e.g. 592-XXX-XXXX" data-i18n-placeholder="ph_phone">
+            <p class="help-text" data-i18n="help_phone">Include a country code if you're outside Guyana (e.g. +1-868 for Trinidad).</p>
+          </div>
+          <div class="field full">
+            <label for="locationSelect"><span data-i18n="label_location">Town / City &amp; Region</span><span class="req">*</span></label>
+            <select id="locationSelect" required>
+              <option value="" disabled selected data-i18n="opt_selectLocation">Select your area</option>
+              <option value="Georgetown, Region 4 (Demerara-Mahaica)">Georgetown, Region 4 (Demerara-Mahaica)</option>
+              <option value="Linden, Region 10 (Upper Demerara-Berbice)">Linden, Region 10 (Upper Demerara-Berbice)</option>
+              <option value="New Amsterdam, Region 6 (East Berbice-Corentyne)">New Amsterdam, Region 6 (East Berbice-Corentyne)</option>
+              <option value="Anna Regina, Region 2 (Pomeroon-Supenaam)">Anna Regina, Region 2 (Pomeroon-Supenaam)</option>
+              <option value="Bartica, Region 7 (Cuyuni-Mazaruni)">Bartica, Region 7 (Cuyuni-Mazaruni)</option>
+              <option value="Vreed-en-Hoop, Region 3 (Essequibo Islands-West Demerara)">Vreed-en-Hoop, Region 3 (Essequibo Islands-West Demerara)</option>
+              <option value="Fort Wellington, Region 5 (Mahaica-Berbice)">Fort Wellington, Region 5 (Mahaica-Berbice)</option>
+              <option value="Mahdia, Region 8 (Potaro-Siparuni)">Mahdia, Region 8 (Potaro-Siparuni)</option>
+              <option value="Lethem, Region 9 (Upper Takutu-Upper Essequibo)">Lethem, Region 9 (Upper Takutu-Upper Essequibo)</option>
+              <option value="Mabaruma, Region 1 (Barima-Waini)">Mabaruma, Region 1 (Barima-Waini)</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="other-input-wrap" id="locationOtherWrap" style="display:none;">
+              <input type="text" id="locationOtherInput" placeholder="e.g. your village or nearest town" data-i18n-placeholder="ph_location_other">
+            </div>
+            <input type="hidden" id="locationField" name="location" value="">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Nationality & Work Authorization -->
+      <div class="section" data-step="2">
+        <div class="section-title"><span class="section-number">2</span><span data-i18n="s_workauth_title">Nationality &amp; Work Authorization</span></div>
+        <p class="help-text" data-i18n="help_workauth_intro">This helps PacRim confirm your legal right to work in Guyana. It does not affect consideration for roles where it isn't required.</p>
+        <div class="field-grid">
+          <div class="field full">
+            <label for="nationalityStatus"><span data-i18n="label_nationality">Nationality / Citizenship Status</span><span class="req">*</span></label>
+            <select id="nationalityStatus" name="nationalityStatus" required>
+              <option value="" disabled selected data-i18n="opt_selectNationality">Select an option</option>
+              <option value="Guyanese Citizen" data-i18n="opt_guyanese">Guyanese Citizen</option>
+              <option value="CARICOM National" data-i18n="opt_caricom">CARICOM National (non-Guyanese)</option>
+              <option value="Non-CARICOM Foreign National" data-i18n="opt_nonCaricom">Non-CARICOM Foreign National</option>
+            </select>
+          </div>
+
+          <div class="field full conditional-block" id="caricomBlock" style="display:none;">
+            <label><span data-i18n="label_caricomSkills">Do you hold a valid CARICOM Skills Certificate?</span><span class="req">*</span></label>
+            <p class="help-text" data-i18n="help_caricomSkills">Also known as the Certificate of Recognition of Caribbean Community Skills Qualification. It lets approved CARICOM categories work in Guyana without a separate work permit.</p>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="caricomSkillsCertificate" value="Yes"> <span data-i18n="radio_yes">Yes</span></label>
+              <label class="radio-option"><input type="radio" name="caricomSkillsCertificate" value="No"> <span data-i18n="radio_no">No</span></label>
+              <label class="radio-option"><input type="radio" name="caricomSkillsCertificate" value="Application in progress"> <span data-i18n="radio_inProgress">Application in progress</span></label>
+            </div>
+          </div>
+          <div class="field conditional-block" id="caricomCountryBlock" style="display:none;">
+            <label for="caricomCountrySelect"><span data-i18n="label_caricomCountry">Country of CARICOM Citizenship</span><span class="optional" data-i18n="optional">optional</span></label>
+            <select id="caricomCountrySelect">
+              <option value="" selected data-i18n="opt_selectCountry">Select a country</option>
+              <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+              <option value="Bahamas">Bahamas</option>
+              <option value="Barbados">Barbados</option>
+              <option value="Belize">Belize</option>
+              <option value="Dominica">Dominica</option>
+              <option value="Grenada">Grenada</option>
+              <option value="Haiti">Haiti</option>
+              <option value="Jamaica">Jamaica</option>
+              <option value="Montserrat">Montserrat</option>
+              <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+              <option value="Saint Lucia">Saint Lucia</option>
+              <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+              <option value="Suriname">Suriname</option>
+              <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="other-input-wrap" id="caricomCountryOtherWrap" style="display:none;">
+              <input type="text" id="caricomCountryOtherInput" placeholder="Enter your country" data-i18n-placeholder="ph_caricomCountry">
+            </div>
+            <input type="hidden" id="caricomCountryField" name="caricomCountry" value="">
+          </div>
+
+          <div class="field full conditional-block" id="workPermitBlock" style="display:none;">
+            <label><span data-i18n="label_workPermit">Do you currently hold a valid Guyana work permit?</span><span class="req">*</span></label>
+            <p class="help-text" data-i18n="help_workPermit">Issued by Guyana's Ministry of Home Affairs. If you don't have one yet, that's fine — just let us know below.</p>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="workPermitStatus" value="Yes"> <span data-i18n="radio_yes">Yes</span></label>
+              <label class="radio-option"><input type="radio" name="workPermitStatus" value="No"> <span data-i18n="radio_no">No</span></label>
+              <label class="radio-option"><input type="radio" name="workPermitStatus" value="Application in progress"> <span data-i18n="radio_inProgress">Application in progress</span></label>
+            </div>
+          </div>
+          <div class="field conditional-block" id="permitExpiryBlock" style="display:none;">
+            <label for="permitExpiry"><span data-i18n="label_permitExpiry">Work Permit Expiry Date</span><span class="optional" data-i18n="optional">optional</span></label>
+            <input type="date" id="permitExpiry" name="permitExpiry">
+          </div>
+          <div class="field full conditional-block" id="sponsorshipBlock" style="display:none;">
+            <label><span data-i18n="label_sponsorship">Will you require employer sponsorship for a work permit?</span><span class="req">*</span></label>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="sponsorshipRequired" value="Yes"> <span data-i18n="radio_yes">Yes</span></label>
+              <label class="radio-option"><input type="radio" name="sponsorshipRequired" value="No"> <span data-i18n="radio_no">No</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Role -->
+      <div class="section" data-step="3">
+        <div class="section-title"><span class="section-number">3</span><span data-i18n="s2_title">Role You're Applying For</span></div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="roleCategory"><span data-i18n="label_roleCategory">Role Category</span><span class="req">*</span></label>
+            <select id="roleCategory" name="roleCategory" required>
+              <option value="" disabled selected data-i18n="opt_selectCategory">Select a category</option>
+              <option value="Industrial" data-i18n="opt_industrial">Industrial</option>
+              <option value="Construction" data-i18n="opt_construction">Construction</option>
+              <option value="Catering" data-i18n="opt_catering">Catering</option>
+              <option value="Remote Site Construction" data-i18n="opt_remoteConstruction">Remote Site Construction</option>
+              <option value="Supply Chain" data-i18n="opt_supply">Supply Chain</option>
+              <option value="Facilities Management" data-i18n="opt_facilities">Facilities Management</option>
+              <option value="Other" data-i18n="opt_other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="jobTitleSelect"><span data-i18n="label_jobTitle">Specific Job Title</span><span class="req">*</span></label>
+            <select id="jobTitleSelect" required>
+              <option value="" disabled selected data-i18n="opt_selectJobTitle">Select a job title</option>
+              <option value="Welder">Welder</option>
+              <option value="Scaffolder">Scaffolder</option>
+              <option value="Electrician">Electrician</option>
+              <option value="Heavy Equipment Operator">Heavy Equipment Operator</option>
+              <option value="Crane Operator">Crane Operator</option>
+              <option value="Rigger">Rigger</option>
+              <option value="Pipefitter">Pipefitter</option>
+              <option value="Mechanic">Mechanic</option>
+              <option value="Plumber">Plumber</option>
+              <option value="Carpenter">Carpenter</option>
+              <option value="Painter">Painter</option>
+              <option value="Camp Cook">Camp Cook</option>
+              <option value="Catering Assistant">Catering Assistant</option>
+              <option value="Housekeeping / Custodial">Housekeeping / Custodial</option>
+              <option value="Logistics Coordinator">Logistics Coordinator</option>
+              <option value="Warehouse Associate">Warehouse Associate</option>
+              <option value="Truck Driver">Truck Driver</option>
+              <option value="Safety Officer (HSE)">Safety Officer (HSE)</option>
+              <option value="Site Supervisor">Site Supervisor</option>
+              <option value="Administrative Assistant">Administrative Assistant</option>
+              <option value="Security Guard">Security Guard</option>
+              <option value="General Laborer">General Laborer</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="other-input-wrap" id="jobTitleOtherWrap" style="display:none;">
+              <input type="text" id="jobTitleOtherInput" placeholder="Enter the job title" data-i18n-placeholder="ph_jobTitle">
+            </div>
+            <input type="hidden" id="jobTitle" name="jobTitle" value="">
+          </div>
+          <div class="field">
+            <label for="yearsExperience"><span data-i18n="label_yearsExperience">Years of Experience</span><span class="req">*</span></label>
+            <select id="yearsExperience" name="yearsExperience" required>
+              <option value="" disabled selected data-i18n="opt_selectRange">Select range</option>
+              <option value="Less than 1 year" data-i18n="opt_lt1">Less than 1 year</option>
+              <option value="1-2 years" data-i18n="opt_1to2">1–2 years</option>
+              <option value="3-5 years" data-i18n="opt_3to5">3–5 years</option>
+              <option value="6-10 years" data-i18n="opt_6to10">6–10 years</option>
+              <option value="10+ years" data-i18n="opt_10plus">10+ years</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="availability"><span data-i18n="label_availability">Availability</span><span class="req">*</span></label>
+            <select id="availability" name="availability" required>
+              <option value="" disabled selected data-i18n="opt_selectAvailability">Select availability</option>
+              <option value="Immediate" data-i18n="opt_immediate">Immediate</option>
+              <option value="2 Weeks Notice" data-i18n="opt_2weeks">2 Weeks Notice</option>
+              <option value="1 Month Notice" data-i18n="opt_1month">1 Month Notice</option>
+              <option value="Other" data-i18n="opt_other2">Other</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label><span data-i18n="label_remoteSite">Willing to Work at a Remote Site?</span><span class="req">*</span></label>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="remoteSite" value="Yes" required> <span data-i18n="radio_yes">Yes</span></label>
+              <label class="radio-option"><input type="radio" name="remoteSite" value="No" required> <span data-i18n="radio_no">No</span></label>
+              <label class="radio-option"><input type="radio" name="remoteSite" value="Depends on Location/Terms" required> <span data-i18n="radio_depends">Depends on location/terms</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Background -->
+      <div class="section" data-step="4">
+        <div class="section-title"><span class="section-number">4</span><span data-i18n="s3_title">Experience &amp; Background</span></div>
+        <div class="field-grid single">
+          <div class="field">
+            <label for="workHistory"><span data-i18n="label_workHistory">Work History</span><span class="req">*</span></label>
+            <p class="help-text" data-i18n="help_workHistory">List your recent roles: job title, employer, dates, and main duties. One per line is fine.</p>
+            <textarea id="workHistory" name="workHistory" required rows="5"></textarea>
+          </div>
+          <div class="field">
+            <label><span data-i18n="label_keySkills">Key Skills</span><span class="req">*</span></label>
+            <p class="help-text" data-i18n="help_keySkills">Select all that apply.</p>
+            <div class="checkbox-group" id="keySkillsGroup">
+              <label class="checkbox-option"><input type="checkbox" value="Welding"> <span data-i18n="skill_welding">Welding</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Heavy Equipment Operation"> <span data-i18n="skill_heavyEquip">Heavy Equipment Operation</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Electrical Work"> <span data-i18n="skill_electrical">Electrical Work</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Plumbing"> <span data-i18n="skill_plumbing">Plumbing</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Carpentry"> <span data-i18n="skill_carpentry">Carpentry</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Food Safety / Catering"> <span data-i18n="skill_foodSafety">Food Safety / Catering</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Inventory &amp; Logistics"> <span data-i18n="skill_inventory">Inventory &amp; Logistics</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="First Aid / Safety Response"> <span data-i18n="skill_firstAid">First Aid / Safety Response</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Administrative / Clerical"> <span data-i18n="skill_admin">Administrative / Clerical</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Driving / Transport"> <span data-i18n="skill_driving">Driving / Transport</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Customer Service"> <span data-i18n="skill_customerService">Customer Service</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="General Labor"> <span data-i18n="skill_generalLabor">General Labor</span></label>
+              <label class="checkbox-option"><input type="checkbox" id="keySkillsOtherCheck"> <span data-i18n="opt_other">Other</span></label>
+            </div>
+            <div class="other-input-wrap" id="keySkillsOtherWrap" style="display:none;">
+              <input type="text" id="keySkillsOtherInput" placeholder="List any other skills" data-i18n-placeholder="ph_skills_other">
+            </div>
+            <input type="hidden" id="keySkills" name="keySkills" value="">
+          </div>
+          <div class="field">
+            <label><span data-i18n="label_certifications">Certifications &amp; Licenses</span><span class="optional" data-i18n="optional">optional</span></label>
+            <p class="help-text" data-i18n="help_certifications">Select all that apply.</p>
+            <div class="checkbox-group" id="certificationsGroup">
+              <label class="checkbox-option"><input type="checkbox" value="H2S Alive"> <span data-i18n="cert_h2s">H2S Alive</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="NCCER Certification"> <span data-i18n="cert_nccer">NCCER Certification</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="OSHA 10/30"> <span data-i18n="cert_osha">OSHA 10/30</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Food Handler's Permit"> <span data-i18n="cert_foodHandler">Food Handler's Permit</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Heavy Equipment License"> <span data-i18n="cert_heavyEquip">Heavy Equipment License</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Confined Space Entry"> <span data-i18n="cert_confinedSpace">Confined Space Entry</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="First Aid / CPR"> <span data-i18n="cert_firstAid">First Aid / CPR</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Forklift Operator License"> <span data-i18n="cert_forklift">Forklift Operator License</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Welding Certification"> <span data-i18n="cert_welding">Welding Certification</span></label>
+              <label class="checkbox-option"><input type="checkbox" value="Electrical License"> <span data-i18n="cert_electrical">Electrical License</span></label>
+              <label class="checkbox-option"><input type="checkbox" id="certificationsOtherCheck"> <span data-i18n="opt_other">Other</span></label>
+            </div>
+            <div class="other-input-wrap" id="certificationsOtherWrap" style="display:none;">
+              <input type="text" id="certificationsOtherInput" placeholder="List any other certifications" data-i18n-placeholder="ph_certifications_other">
+            </div>
+            <input type="hidden" id="certifications" name="certifications" value="">
+          </div>
+          <div class="field">
+            <label for="educationSelect"><span data-i18n="label_education">Highest Level of Education</span><span class="optional" data-i18n="optional">optional</span></label>
+            <select id="educationSelect">
+              <option value="" selected data-i18n="opt_selectEducation">Select an option</option>
+              <option value="Primary School">Primary School</option>
+              <option value="Secondary School (CSEC/CXC)">Secondary School (CSEC/CXC)</option>
+              <option value="CAPE / A-Levels">CAPE / A-Levels</option>
+              <option value="Technical or Vocational Certificate">Technical or Vocational Certificate</option>
+              <option value="Associate Degree">Associate Degree</option>
+              <option value="Bachelor's Degree">Bachelor's Degree</option>
+              <option value="Master's Degree or Higher">Master's Degree or Higher</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="other-input-wrap" id="educationOtherWrap" style="display:none;">
+              <input type="text" id="educationOtherInput" placeholder="Describe your education" data-i18n-placeholder="ph_education_other">
+            </div>
+            <input type="hidden" id="education" name="education" value="">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Supporting Documents -->
+      <div class="section" data-step="5">
+        <div class="section-title"><span class="section-number">5</span><span data-i18n="s_docs_title">Supporting Documents</span></div>
+        <p class="help-text" data-i18n="help_docs_intro">PDF, JPG, or Word files work best. Each is optional unless marked required.</p>
+        <div class="field-grid">
+          <div class="field full">
+            <label><span data-i18n="label_resumeUpload">Upload Existing Resume</span><span class="optional" data-i18n="optional_pdfWord">optional, PDF or Word preferred</span></label>
+            <label class="file-drop" id="fileDropLabel">
+              <span id="fileDropText" data-i18n="fileDropDefault">Click to choose a file, or drag one here</span>
+              <input type="file" id="resumeFile" name="resumeFile" accept=".pdf,.doc,.docx">
+            </label>
+            <div class="file-name" id="fileNameDisplay"></div>
+          </div>
+          <div class="field full">
+            <label><span data-i18n="label_idDocument">Government-Issued ID or Passport</span><span class="req">*</span></label>
+            <p class="help-text" data-i18n="help_idDocument">A clear photo or scan of a valid national ID, passport, or driver's license.</p>
+            <label class="file-drop" id="idDocumentDropLabel">
+              <span id="idDocumentDropText" data-i18n="fileDropDefault">Click to choose a file, or drag one here</span>
+              <input type="file" id="idDocumentFile" accept=".pdf,.jpg,.jpeg,.png" capture="environment" required>
+            </label>
+            <div class="file-name" id="idDocumentNameDisplay"></div>
+            <div class="trust-line"><span class="lock-icon">&#128274;</span><span data-i18n="trust_line_id">Used only to verify eligibility — never shared outside PacRim.</span></div>
+          </div>
+          <div class="field full">
+            <label><span data-i18n="label_certificationsUpload">Certification / License Documents</span><span class="optional" data-i18n="optional">optional</span></label>
+            <p class="help-text" data-i18n="help_certificationsUpload">e.g. H2S Alive card, NCCER certificate, food handler's permit, heavy equipment license.</p>
+            <label class="file-drop" id="certificationsFileDropLabel">
+              <span id="certificationsFileDropText" data-i18n="fileDropDefault">Click to choose a file, or drag one here</span>
+              <input type="file" id="certificationsFileInput" accept=".pdf,.jpg,.jpeg,.png" capture="environment">
+            </label>
+            <div class="file-name" id="certificationsFileNameDisplay"></div>
+          </div>
+          <div class="field full conditional-block" id="workAuthDocBlock" style="display:none;">
+            <label><span data-i18n="label_workAuthDocUpload">Supporting Work Authorization Document</span><span class="req">*</span></label>
+            <p class="help-text" data-i18n="help_workAuthDocUpload">Upload your CARICOM Skills Certificate, or your Guyana work permit if you have one.</p>
+            <label class="file-drop" id="workAuthDocumentDropLabel">
+              <span id="workAuthDocumentDropText" data-i18n="fileDropDefault">Click to choose a file, or drag one here</span>
+              <input type="file" id="workAuthDocumentFile" accept=".pdf,.jpg,.jpeg,.png" capture="environment">
+            </label>
+            <div class="file-name" id="workAuthDocumentNameDisplay"></div>
+            <div class="trust-line"><span class="lock-icon">&#128274;</span><span data-i18n="trust_line_workauth">Used only to verify eligibility — never shared outside PacRim.</span></div>
+          </div>
+          <div class="field full">
+            <label><span data-i18n="label_coverLetterUpload">Cover Letter</span><span class="optional" data-i18n="optional">optional</span></label>
+            <label class="file-drop" id="coverLetterFileDropLabel">
+              <span id="coverLetterFileDropText" data-i18n="fileDropDefault">Click to choose a file, or drag one here</span>
+              <input type="file" id="coverLetterFileInput" accept=".pdf,.doc,.docx">
+            </label>
+            <div class="file-name" id="coverLetterFileNameDisplay"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6: Additional Details -->
+      <div class="section" data-step="6">
+        <div class="section-title"><span class="section-number">6</span><span data-i18n="s4_title">Additional Details</span></div>
+        <div class="field-grid">
+          <div class="field">
+            <label><span data-i18n="label_referencesAvailable">References Available on Request?</span><span class="req">*</span></label>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="referencesAvailable" value="Yes" required> <span data-i18n="radio_yes">Yes</span></label>
+              <label class="radio-option"><input type="radio" name="referencesAvailable" value="No" required> <span data-i18n="radio_no">No</span></label>
+            </div>
+          </div>
+          <div class="field full">
+            <label for="additionalNotes"><span data-i18n="label_additionalNotes">Anything Else You'd Like Us to Know?</span><span class="optional" data-i18n="optional">optional</span></label>
+            <textarea id="additionalNotes" name="additionalNotes" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="applicantLanguageField" name="applicantLanguage" value="en">
+      <input type="hidden" id="jobIdField" name="jobId" value="">
+      <input type="hidden" id="jobPostingTitleField" name="jobPostingTitle" value="">
+      <input type="hidden" id="fileDataField" name="fileData" value="">
+      <input type="hidden" id="fileNameField" name="fileName" value="">
+      <input type="hidden" id="fileMimeTypeField" name="fileMimeType" value="">
+      <input type="hidden" id="idDocumentDataField" name="idDocumentData" value="">
+      <input type="hidden" id="idDocumentNameField" name="idDocumentName" value="">
+      <input type="hidden" id="idDocumentMimeTypeField" name="idDocumentMimeType" value="">
+      <input type="hidden" id="certificationsFileDataField" name="certificationsFileData" value="">
+      <input type="hidden" id="certificationsFileNameField" name="certificationsFileName" value="">
+      <input type="hidden" id="certificationsFileMimeTypeField" name="certificationsFileMimeType" value="">
+      <input type="hidden" id="workAuthDocumentDataField" name="workAuthDocumentData" value="">
+      <input type="hidden" id="workAuthDocumentNameField" name="workAuthDocumentName" value="">
+      <input type="hidden" id="workAuthDocumentMimeTypeField" name="workAuthDocumentMimeType" value="">
+      <input type="hidden" id="coverLetterFileDataField" name="coverLetterFileData" value="">
+      <input type="hidden" id="coverLetterFileNameField" name="coverLetterFileName" value="">
+      <input type="hidden" id="coverLetterFileMimeTypeField" name="coverLetterFileMimeType" value="">
+      <input type="hidden" id="clientApplicationIdField" name="clientApplicationId" value="">
+
+      <div class="submit-bar" data-step="7">
+        <button type="submit" class="submit-btn" id="submitBtn" data-i18n="submitBtn">Submit Application</button>
+        <p class="privacy-note" data-i18n="privacyNote">Your information is shared only with PacRim for recruitment purposes. A formatted resume PDF will be generated automatically from your answers.</p>
+      </div>
+
+    </form>
+
+    <div class="section confirmation-panel" id="confirmationPanel" style="display:none;">
+      <div class="confirmation-icon">&#10003;</div>
+      <h2 data-i18n="confirm_title">You're In!</h2>
+      <p data-i18n="confirm_body">Your application has been received. PacRim's recruitment team will review it and reach out if your experience matches an open role.</p>
+      <div class="confirmation-id-box">
+        <div class="confirmation-id-label" data-i18n="confirm_ref_label">Reference ID</div>
+        <div class="confirmation-id-value" id="confirmationIdValue"></div>
+      </div>
+      <div class="confirmation-next">
+        <div class="confirmation-next-title" data-i18n="confirm_next_title">What happens next</div>
+        <ul>
+          <li data-i18n="confirm_next_1">A recruiter reviews your application and documents.</li>
+          <li data-i18n="confirm_next_2">If it's a match, you'll be contacted by phone or email.</li>
+          <li data-i18n="confirm_next_3">Keep your reference ID in case you follow up with PacRim.</li>
+        </ul>
+      </div>
+      <button type="button" class="btn-secondary" id="submitAnotherBtn" data-i18n="confirm_another">Submit Another Application</button>
+    </div>
+
+  </div>
+
+<script>
+  // Paste your Apps Script Web App URL here (see SETUP_GUIDE.md, Step 2)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUiL9ol2-mRYDtjLyUMy00WQmWwXKk2OWejlPtEz83zK7I-_nuI4HwZZcnXx05-_nzXA/exec";
+
+  // Same Jobs spreadsheet ID used on the listings page — reads the specific
+  // job being applied to via Google's public "gviz" query endpoint (works
+  // around the CORS limitation Apps Script itself has for reads).
+  const JOBS_SPREADSHEET_ID = "PASTE_YOUR_JOBS_SPREADSHEET_ID_HERE";
+  const JOBS_SHEET_NAME = "Jobs";
+
+  // ---- Translations ----
+  // Note: field VALUES (option values, radio values) always stay in English
+  // so the Google Sheet reads consistently no matter which language the
+  // applicant used. Only the displayed text is translated.
+  const translations = {
+    en: {
+      eyebrow: "PacRim Is Hiring",
+      lang_tooltip: "Also available in Spanish · También en español",
+      lang_tooltip_dismiss: "Got it",
+      h1: "Apply for a Role with PacRim",
+      subhead: "Submit your details below for current and upcoming openings across oil &amp; gas, mining, and renewables projects in Guyana.",
+      tag_industrial: "Industrial",
+      tag_construction: "Construction",
+      tag_catering: "Catering",
+      tag_remote: "Remote Site",
+      tag_supply: "Supply Chain",
+      tag_facilities: "Facilities Management",
+      s1_title: "Your Information",
+      s2_title: "Role You're Applying For",
+      s_workauth_title: "Nationality &amp; Work Authorization",
+      help_workauth_intro: "This helps PacRim confirm your legal right to work in Guyana. It does not affect consideration for roles where it isn't required.",
+      label_nationality: "Nationality / Citizenship Status",
+      opt_selectNationality: "Select an option",
+      opt_guyanese: "Guyanese Citizen",
+      opt_caricom: "CARICOM National (non-Guyanese)",
+      opt_nonCaricom: "Non-CARICOM Foreign National",
+      label_caricomSkills: "Do you hold a valid CARICOM Skills Certificate?",
+      help_caricomSkills: "Also known as the Certificate of Recognition of Caribbean Community Skills Qualification. It lets approved CARICOM categories work in Guyana without a separate work permit.",
+      radio_inProgress: "Application in progress",
+      label_caricomCountry: "Country of CARICOM Citizenship",
+      ph_caricomCountry: "e.g. Trinidad and Tobago",
+      label_workPermit: "Do you currently hold a valid Guyana work permit?",
+      help_workPermit: "Issued by Guyana's Ministry of Home Affairs. If you don't have one yet, that's fine \u2014 just let us know below.",
+      label_permitExpiry: "Work Permit Expiry Date",
+      label_sponsorship: "Will you require employer sponsorship for a work permit?",
+      s3_title: "Experience &amp; Background",
+      s4_title: "Additional Details",
+      s_docs_title: "Supporting Documents",
+      help_docs_intro: "PDF, JPG, or Word files work best. Each is optional unless marked required.",
+      label_idDocument: "Government-Issued ID or Passport",
+      help_idDocument: "A clear photo or scan of a valid national ID, passport, or driver's license.",
+      label_certificationsUpload: "Certification / License Documents",
+      help_certificationsUpload: "e.g. H2S Alive card, NCCER certificate, food handler's permit, heavy equipment license.",
+      label_workAuthDocUpload: "Supporting Work Authorization Document",
+      help_workAuthDocUpload: "Upload your CARICOM Skills Certificate, or your Guyana work permit if you have one.",
+      label_coverLetterUpload: "Cover Letter",
+      applying_for: "Applying for",
+      browse_all_link: "\u2190 Browse all open roles",
+      label_fullName: "Full Name",
+      label_email: "Email Address",
+      label_phone: "Phone Number",
+      ph_phone: "e.g. 592-XXX-XXXX",
+      label_location: "Town / City &amp; Region",
+      ph_location: "e.g. Linden, Region 10",
+      label_roleCategory: "Role Category",
+      opt_selectCategory: "Select a category",
+      opt_industrial: "Industrial",
+      opt_construction: "Construction",
+      opt_catering: "Catering",
+      opt_remoteConstruction: "Remote Site Construction",
+      opt_supply: "Supply Chain",
+      opt_facilities: "Facilities Management",
+      opt_other: "Other",
+      label_jobTitle: "Specific Job Title",
+      ph_jobTitle: "e.g. Scaffolder, Camp Cook, Logistics Coordinator",
+      label_yearsExperience: "Years of Experience",
+      opt_selectRange: "Select range",
+      opt_lt1: "Less than 1 year",
+      opt_1to2: "1\u20132 years",
+      opt_3to5: "3\u20135 years",
+      opt_6to10: "6\u201310 years",
+      opt_10plus: "10+ years",
+      label_availability: "Availability",
+      opt_selectAvailability: "Select availability",
+      opt_immediate: "Immediate",
+      opt_2weeks: "2 Weeks Notice",
+      opt_1month: "1 Month Notice",
+      opt_other2: "Other",
+      label_remoteSite: "Willing to Work at a Remote Site?",
+      radio_yes: "Yes",
+      radio_no: "No",
+      radio_depends: "Depends on location/terms",
+      label_workHistory: "Work History",
+      help_workHistory: "List your recent roles: job title, employer, dates, and main duties. One per line is fine.",
+      label_keySkills: "Key Skills",
+      help_keySkills: "e.g. welding, heavy equipment operation, food safety, inventory management, electrical work",
+      label_certifications: "Certifications &amp; Licenses",
+      help_certifications: "e.g. H2S Alive, NCCER, Food Handler's Permit, Heavy Equipment License, OSHA",
+      label_education: "Education",
+      label_referencesAvailable: "References Available on Request?",
+      label_additionalNotes: "Anything Else You'd Like Us to Know?",
+      label_resumeUpload: "Upload Existing Resume",
+      optional_pdfWord: "optional, PDF or Word preferred",
+      optional: "optional",
+      fileDropDefault: "Click to choose a file, or drag one here",
+      fileDropChange: "Change file",
+      fileSelected: "Selected: ",
+      submitBtn: "Submit Application",
+      submitBtnLoading: "Submitting...",
+      privacyNote: "Your information is shared only with PacRim for recruitment purposes. A formatted resume PDF will be generated automatically from your answers.",
+      err_notConnected: "Form isn't connected yet \u2014 the Apps Script URL needs to be added. See SETUP_GUIDE.md.",
+      success_msg: "Application submitted successfully. Reference ID: {id}. PacRim will be in touch if your experience matches an open role.",
+      err_generic: "Something went wrong: ",
+      err_generic_fallback: "please try again or contact PacRim directly.",
+      err_network: "Couldn't submit the form. Check your connection and try again.",
+      err_keySkillsRequired: "Please select at least one key skill.",
+      opt_selectLocation: "Select your area",
+      ph_location_other: "e.g. your village or nearest town",
+      opt_selectCountry: "Select a country",
+      opt_selectJobTitle: "Select a job title",
+      opt_selectEducation: "Select an option",
+      ph_education_other: "Describe your education",
+      ph_skills_other: "List any other skills",
+      ph_certifications_other: "List any other certifications",
+      skill_welding: "Welding",
+      skill_heavyEquip: "Heavy Equipment Operation",
+      skill_electrical: "Electrical Work",
+      skill_plumbing: "Plumbing",
+      skill_carpentry: "Carpentry",
+      skill_foodSafety: "Food Safety / Catering",
+      skill_inventory: "Inventory &amp; Logistics",
+      skill_firstAid: "First Aid / Safety Response",
+      skill_admin: "Administrative / Clerical",
+      skill_driving: "Driving / Transport",
+      skill_customerService: "Customer Service",
+      skill_generalLabor: "General Labor",
+      cert_h2s: "H2S Alive",
+      cert_nccer: "NCCER Certification",
+      cert_osha: "OSHA 10/30",
+      cert_foodHandler: "Food Handler's Permit",
+      cert_heavyEquip: "Heavy Equipment License",
+      cert_confinedSpace: "Confined Space Entry",
+      cert_firstAid: "First Aid / CPR",
+      cert_forklift: "Forklift Operator License",
+      cert_welding: "Welding Certification",
+      cert_electrical: "Electrical License",
+      step_label: "Step {n} of {total}",
+      err_fileTooLarge: "\"{name}\" is too large (over 8MB). Please choose a smaller file.",
+      warn_fileLarge: "\"{name}\" is a large file — upload may take longer on a slow connection.",
+      trust_line_id: "Used only to verify eligibility \u2014 never shared outside PacRim.",
+      trust_line_workauth: "Used only to verify eligibility \u2014 never shared outside PacRim.",
+      help_phone: "Include a country code if you're outside Guyana (e.g. +1-868 for Trinidad).",
+      draft_restored: "We restored your saved progress.",
+      confirm_title: "You're In!",
+      confirm_body: "Your application has been received. PacRim's recruitment team will review it and reach out if your experience matches an open role.",
+      confirm_ref_label: "Reference ID",
+      confirm_next_title: "What happens next",
+      confirm_next_1: "A recruiter reviews your application and documents.",
+      confirm_next_2: "If it's a match, you'll be contacted by phone or email.",
+      confirm_next_3: "Keep your reference ID in case you follow up with PacRim.",
+      confirm_another: "Submit Another Application"
+    },
+    es: {
+      eyebrow: "PacRim est\u00e1 contratando",
+      lang_tooltip: "Tambi\u00e9n disponible en espa\u00f1ol · Also available in Spanish",
+      lang_tooltip_dismiss: "Entendido",
+      h1: "Solicita un empleo con PacRim",
+      subhead: "Env\u00eda tus datos a continuaci\u00f3n para las vacantes actuales y futuras en proyectos de petr\u00f3leo y gas, miner\u00eda y energ\u00edas renovables en Guyana.",
+      tag_industrial: "Industrial",
+      tag_construction: "Construcci\u00f3n",
+      tag_catering: "Catering",
+      tag_remote: "Sitio remoto",
+      tag_supply: "Cadena de suministro",
+      tag_facilities: "Gesti\u00f3n de instalaciones",
+      s1_title: "Su informaci\u00f3n",
+      s2_title: "Puesto al que aplica",
+      s_workauth_title: "Nacionalidad y autorizaci\u00f3n de trabajo",
+      help_workauth_intro: "Esto ayuda a PacRim a confirmar su derecho legal a trabajar en Guyana. No afecta su consideraci\u00f3n para puestos donde esto no se requiera.",
+      label_nationality: "Nacionalidad / Estatus de ciudadan\u00eda",
+      opt_selectNationality: "Seleccione una opci\u00f3n",
+      opt_guyanese: "Ciudadano/a guyan\u00e9s/a",
+      opt_caricom: "Nacional de CARICOM (no guyan\u00e9s/a)",
+      opt_nonCaricom: "Extranjero/a fuera de CARICOM",
+      label_caricomSkills: "\u00bfTiene un Certificado de Habilidades de CARICOM v\u00e1lido?",
+      help_caricomSkills: "Tambi\u00e9n conocido como el Certificado de Reconocimiento de Calificaci\u00f3n de Habilidades de la Comunidad del Caribe. Permite a las categor\u00edas aprobadas de CARICOM trabajar en Guyana sin un permiso de trabajo aparte.",
+      radio_inProgress: "Solicitud en tr\u00e1mite",
+      label_caricomCountry: "Pa\u00eds de ciudadan\u00eda CARICOM",
+      ph_caricomCountry: "ej. Trinidad y Tobago",
+      label_workPermit: "\u00bfActualmente tiene un permiso de trabajo v\u00e1lido para Guyana?",
+      help_workPermit: "Emitido por el Ministerio del Interior de Guyana. Si a\u00fan no lo tiene, no hay problema \u2014 solo indique su estado a continuaci\u00f3n.",
+      label_permitExpiry: "Fecha de vencimiento del permiso de trabajo",
+      label_sponsorship: "\u00bfNecesitar\u00e1 patrocinio del empleador para un permiso de trabajo?",
+      s3_title: "Experiencia y antecedentes",
+      s4_title: "Detalles adicionales",
+      s_docs_title: "Documentos de respaldo",
+      help_docs_intro: "Los archivos PDF, JPG o Word funcionan mejor. Cada uno es opcional salvo que se indique lo contrario.",
+      label_idDocument: "Identificaci\u00f3n oficial o pasaporte",
+      help_idDocument: "Una foto o escaneo claro de una identificaci\u00f3n nacional, pasaporte o licencia de conducir v\u00e1lida.",
+      label_certificationsUpload: "Documentos de certificaci\u00f3n / licencia",
+      help_certificationsUpload: "ej. tarjeta H2S Alive, certificado NCCER, permiso de manipulador de alimentos, licencia de equipo pesado.",
+      label_workAuthDocUpload: "Documento de respaldo de autorizaci\u00f3n de trabajo",
+      help_workAuthDocUpload: "Suba su Certificado de Habilidades de CARICOM, o su permiso de trabajo de Guyana si lo tiene.",
+      label_coverLetterUpload: "Carta de presentaci\u00f3n",
+      applying_for: "Solicitando para",
+      browse_all_link: "\u2190 Ver todas las vacantes abiertas",
+      label_fullName: "Nombre completo",
+      label_email: "Correo electr\u00f3nico",
+      label_phone: "N\u00famero de tel\u00e9fono",
+      ph_phone: "ej. 592-XXX-XXXX",
+      label_location: "Ciudad / Pueblo y regi\u00f3n",
+      ph_location: "ej. Linden, Regi\u00f3n 10",
+      label_roleCategory: "Categor\u00eda del puesto",
+      opt_selectCategory: "Seleccione una categor\u00eda",
+      opt_industrial: "Industrial",
+      opt_construction: "Construcci\u00f3n",
+      opt_catering: "Catering",
+      opt_remoteConstruction: "Construcci\u00f3n en sitio remoto",
+      opt_supply: "Cadena de suministro",
+      opt_facilities: "Gesti\u00f3n de instalaciones",
+      opt_other: "Otro",
+      label_jobTitle: "Puesto espec\u00edfico",
+      ph_jobTitle: "ej. Andamiero, Cocinero de campamento, Coordinador de log\u00edstica",
+      label_yearsExperience: "A\u00f1os de experiencia",
+      opt_selectRange: "Seleccione un rango",
+      opt_lt1: "Menos de 1 a\u00f1o",
+      opt_1to2: "1\u20132 a\u00f1os",
+      opt_3to5: "3\u20135 a\u00f1os",
+      opt_6to10: "6\u201310 a\u00f1os",
+      opt_10plus: "M\u00e1s de 10 a\u00f1os",
+      label_availability: "Disponibilidad",
+      opt_selectAvailability: "Seleccione disponibilidad",
+      opt_immediate: "Inmediata",
+      opt_2weeks: "Aviso de 2 semanas",
+      opt_1month: "Aviso de 1 mes",
+      opt_other2: "Otro",
+      label_remoteSite: "\u00bfDispuesto/a a trabajar en un sitio remoto?",
+      radio_yes: "S\u00ed",
+      radio_no: "No",
+      radio_depends: "Depende de la ubicaci\u00f3n/condiciones",
+      label_workHistory: "Historial laboral",
+      help_workHistory: "Enumere sus puestos recientes: cargo, empleador, fechas y funciones principales. Uno por l\u00ednea est\u00e1 bien.",
+      label_keySkills: "Habilidades clave",
+      help_keySkills: "ej. soldadura, operaci\u00f3n de equipo pesado, seguridad alimentaria, gesti\u00f3n de inventario, trabajo el\u00e9ctrico",
+      label_certifications: "Certificaciones y licencias",
+      help_certifications: "ej. H2S Alive, NCCER, Permiso de manipulador de alimentos, Licencia de equipo pesado, OSHA",
+      label_education: "Educaci\u00f3n",
+      label_referencesAvailable: "\u00bfReferencias disponibles a solicitud?",
+      label_additionalNotes: "\u00bfAlgo m\u00e1s que le gustar\u00eda que sepamos?",
+      label_resumeUpload: "Subir curr\u00edculum existente",
+      optional_pdfWord: "opcional, se prefiere PDF o Word",
+      optional: "opcional",
+      fileDropDefault: "Haga clic para elegir un archivo, o arr\u00e1strelo aqu\u00ed",
+      fileDropChange: "Cambiar archivo",
+      fileSelected: "Seleccionado: ",
+      submitBtn: "Enviar solicitud",
+      submitBtnLoading: "Enviando...",
+      privacyNote: "Su informaci\u00f3n se comparte \u00fanicamente con PacRim para fines de contrataci\u00f3n. Se generar\u00e1 autom\u00e1ticamente un curr\u00edculum en PDF con formato a partir de sus respuestas.",
+      err_notConnected: "El formulario a\u00fan no est\u00e1 conectado \u2014 falta agregar la URL de Apps Script. Consulte SETUP_GUIDE.md.",
+      success_msg: "Solicitud enviada con \u00e9xito. ID de referencia: {id}. PacRim se pondr\u00e1 en contacto si su experiencia coincide con un puesto disponible.",
+      err_generic: "Algo sali\u00f3 mal: ",
+      err_generic_fallback: "intente de nuevo o comun\u00edquese directamente con PacRim.",
+      err_network: "No se pudo enviar el formulario. Verifique su conexi\u00f3n e intente de nuevo.",
+      err_keySkillsRequired: "Seleccione al menos una habilidad clave.",
+      opt_selectLocation: "Seleccione su \u00e1rea",
+      ph_location_other: "ej. su aldea o pueblo m\u00e1s cercano",
+      opt_selectCountry: "Seleccione un pa\u00eds",
+      opt_selectJobTitle: "Seleccione un puesto",
+      opt_selectEducation: "Seleccione una opci\u00f3n",
+      ph_education_other: "Describa su educaci\u00f3n",
+      ph_skills_other: "Enumere otras habilidades",
+      ph_certifications_other: "Enumere otras certificaciones",
+      skill_welding: "Soldadura",
+      skill_heavyEquip: "Operaci\u00f3n de equipo pesado",
+      skill_electrical: "Trabajo el\u00e9ctrico",
+      skill_plumbing: "Plomer\u00eda",
+      skill_carpentry: "Carpinter\u00eda",
+      skill_foodSafety: "Seguridad alimentaria / Catering",
+      skill_inventory: "Inventario y log\u00edstica",
+      skill_firstAid: "Primeros auxilios / Respuesta de seguridad",
+      skill_admin: "Administrativo / Oficina",
+      skill_driving: "Conducci\u00f3n / Transporte",
+      skill_customerService: "Atenci\u00f3n al cliente",
+      skill_generalLabor: "Trabajo general",
+      cert_h2s: "H2S Alive",
+      cert_nccer: "Certificaci\u00f3n NCCER",
+      cert_osha: "OSHA 10/30",
+      cert_foodHandler: "Permiso de manipulador de alimentos",
+      cert_heavyEquip: "Licencia de equipo pesado",
+      cert_confinedSpace: "Entrada a espacios confinados",
+      cert_firstAid: "Primeros auxilios / RCP",
+      cert_forklift: "Licencia de operador de montacargas",
+      cert_welding: "Certificaci\u00f3n de soldadura",
+      cert_electrical: "Licencia el\u00e9ctrica",
+      step_label: "Paso {n} de {total}",
+      err_fileTooLarge: "\"{name}\" es demasiado grande (m\u00e1s de 8MB). Elija un archivo m\u00e1s peque\u00f1o.",
+      warn_fileLarge: "\"{name}\" es un archivo grande \u2014 la carga puede tardar m\u00e1s con una conexi\u00f3n lenta.",
+      trust_line_id: "Se usa \u00fanicamente para verificar elegibilidad \u2014 nunca se comparte fuera de PacRim.",
+      trust_line_workauth: "Se usa \u00fanicamente para verificar elegibilidad \u2014 nunca se comparte fuera de PacRim.",
+      help_phone: "Incluya el c\u00f3digo de pa\u00eds si est\u00e1 fuera de Guyana (ej. +1-868 para Trinidad).",
+      draft_restored: "Restauramos su progreso guardado.",
+      confirm_title: "\u00a1Listo!",
+      confirm_body: "Su solicitud ha sido recibida. El equipo de reclutamiento de PacRim la revisar\u00e1 y se pondr\u00e1 en contacto si su experiencia coincide con un puesto disponible.",
+      confirm_ref_label: "ID de referencia",
+      confirm_next_title: "Qu\u00e9 sigue",
+      confirm_next_1: "Un reclutador revisa su solicitud y documentos.",
+      confirm_next_2: "Si hay coincidencia, se le contactar\u00e1 por tel\u00e9fono o correo electr\u00f3nico.",
+      confirm_next_3: "Guarde su ID de referencia por si necesita dar seguimiento con PacRim.",
+      confirm_another: "Enviar otra solicitud"
+    }
+  };
+
+  let currentLang = localStorage.getItem('pacrimLang') || 'en';
+
+  function applyLanguage(lang) {
+    if (!translations[lang]) lang = 'en';
+    currentLang = lang;
+    const dict = translations[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+    });
+
+    // Keep any file-drop text correct if a file is already selected
+    fileDropFields.forEach(f => {
+      if (f.input.files.length > 0) {
+        f.dropText.textContent = dict.fileDropChange;
+        f.nameDisplay.textContent = dict.fileSelected + f.input.files[0].name;
+      }
+    });
+
+    document.getElementById('htmlRoot').setAttribute('lang', lang);
+    document.getElementById('applicantLanguageField').value = lang;
+    document.getElementById('langBtnEn').classList.toggle('active', lang === 'en');
+    document.getElementById('langBtnEs').classList.toggle('active', lang === 'es');
+    localStorage.setItem('pacrimLang', lang);
+  }
+
+  document.getElementById('langBtnEn').addEventListener('click', () => applyLanguage('en'));
+  document.getElementById('langBtnEs').addEventListener('click', () => applyLanguage('es'));
+
+  const form = document.getElementById('applicationForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const toastStack = document.getElementById('toastStack');
+  const fileInput = document.getElementById('resumeFile');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const fileDropText = document.getElementById('fileDropText');
+
+  // All upload fields share the same drop-zone UI behavior
+  const fileDropFields = [
+    { input: fileInput, dropText: fileDropText, nameDisplay: fileNameDisplay, prefix: 'file' },
+    { input: document.getElementById('idDocumentFile'), dropText: document.getElementById('idDocumentDropText'), nameDisplay: document.getElementById('idDocumentNameDisplay'), prefix: 'idDocument' },
+    { input: document.getElementById('certificationsFileInput'), dropText: document.getElementById('certificationsFileDropText'), nameDisplay: document.getElementById('certificationsFileNameDisplay'), prefix: 'certificationsFile' },
+    { input: document.getElementById('workAuthDocumentFile'), dropText: document.getElementById('workAuthDocumentDropText'), nameDisplay: document.getElementById('workAuthDocumentNameDisplay'), prefix: 'workAuthDocument' },
+    { input: document.getElementById('coverLetterFileInput'), dropText: document.getElementById('coverLetterFileDropText'), nameDisplay: document.getElementById('coverLetterFileNameDisplay'), prefix: 'coverLetterFile' }
+  ];
+
+  applyLanguage(currentLang);
+
+  const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB hard limit
+  const WARN_FILE_SIZE = 5 * 1024 * 1024; // 5MB soft warning
+
+  fileDropFields.forEach(f => {
+    f.input.addEventListener('change', () => {
+      if (f.input.files.length > 0) {
+        const file = f.input.files[0];
+
+        if (file.size > MAX_FILE_SIZE) {
+          showStatus('error', translations[currentLang].err_fileTooLarge.replace('{name}', file.name));
+          f.input.value = '';
+          f.nameDisplay.textContent = '';
+          f.dropText.textContent = translations[currentLang].fileDropDefault;
+          return;
+        }
+        if (file.size > WARN_FILE_SIZE) {
+          showStatus('warning', translations[currentLang].warn_fileLarge.replace('{name}', file.name));
+        }
+
+        f.nameDisplay.textContent = translations[currentLang].fileSelected + file.name;
+        f.dropText.textContent = translations[currentLang].fileDropChange;
+      }
+    });
+  });
+
+  // ---- Job context: reads ?job=JOB-ID from the URL and loads that ----
+  // ---- listing's details from the public Jobs sheet (read-only, via ----
+  // ---- Google's gviz query endpoint — no Apps Script call needed here). ----
+  let currentJob = null;
+
+  function showJobBanner(job) {
+    document.getElementById('jobBanner').style.display = 'block';
+    document.getElementById('jobBannerTitle').textContent = job.title;
+    document.getElementById('jobBannerMeta').textContent =
+      [job.category, job.location, job.jobType].filter(Boolean).join(' · ');
+    document.getElementById('jobIdField').value = job.id;
+    document.getElementById('jobPostingTitleField').value = job.title;
+
+    const jobTitleSelect = document.getElementById('jobTitleSelect');
+    const jobTitleField = document.getElementById('jobTitle');
+    if (jobTitleSelect && !jobTitleField.value) {
+      const match = Array.from(jobTitleSelect.options).find(o => o.value === job.title);
+      if (match) {
+        jobTitleSelect.value = job.title;
+      } else {
+        jobTitleSelect.value = "Other";
+        document.getElementById('jobTitleOtherInput').value = job.title;
+      }
+      jobTitleSelect.dispatchEvent(new Event('change'));
+    }
+    const roleCategorySelect = document.getElementById('roleCategory');
+    if (roleCategorySelect && !roleCategorySelect.value) {
+      const match = Array.from(roleCategorySelect.options).find(o => o.value === job.category);
+      if (match) roleCategorySelect.value = job.category;
+    }
+  }
+
+  async function loadJobFromUrl() {
+    const jobId = new URLSearchParams(window.location.search).get('job');
+    if (!jobId || JOBS_SPREADSHEET_ID.includes("PASTE_YOUR_JOBS_SPREADSHEET_ID_HERE")) return;
+
+    try {
+      const url = "https://docs.google.com/spreadsheets/d/" + JOBS_SPREADSHEET_ID +
+        "/gviz/tq?tqx=out:json&sheet=" + encodeURIComponent(JOBS_SHEET_NAME);
+      const res = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
+      const rows = json.table.rows || [];
+
+      for (const row of rows) {
+        const c = row.c;
+        const rowJobId = c[0] && c[0].v;
+        if (rowJobId === jobId) {
+          currentJob = {
+            id: rowJobId,
+            title: c[1] && c[1].v || "",
+            category: c[2] && c[2].v || "",
+            location: c[3] && c[3].v || "",
+            jobType: c[4] && c[4].v || "",
+            positions: c[5] && c[5].v || "",
+            summary: c[6] && c[6].v || "",
+            description: c[7] && c[7].v || "",
+            requiredDocuments: c[8] && c[8].v || "",
+            status: c[9] && c[9].v || ""
+          };
+          showJobBanner(currentJob);
+          break;
+        }
+      }
+    } catch (err) {
+      // If the job can't be loaded, the form still works as a general application.
+    }
+  }
+
+  loadJobFromUrl();
+
+  // ---- "Select an option, or type your own if you pick Other" wiring ----
+  function wireSelectOther(selectEl, otherWrapEl, otherInputEl, hiddenFieldEl, isRequired) {
+    function sync() {
+      if (selectEl.value === 'Other') {
+        otherWrapEl.style.display = '';
+        otherInputEl.required = !!isRequired;
+        hiddenFieldEl.value = otherInputEl.value.trim();
+      } else {
+        otherWrapEl.style.display = 'none';
+        otherInputEl.required = false;
+        hiddenFieldEl.value = selectEl.value;
+      }
+    }
+    selectEl.addEventListener('change', sync);
+    otherInputEl.addEventListener('input', sync);
+    sync();
+  }
+
+  wireSelectOther(
+    document.getElementById('locationSelect'),
+    document.getElementById('locationOtherWrap'),
+    document.getElementById('locationOtherInput'),
+    document.getElementById('locationField'),
+    true
+  );
+  wireSelectOther(
+    document.getElementById('caricomCountrySelect'),
+    document.getElementById('caricomCountryOtherWrap'),
+    document.getElementById('caricomCountryOtherInput'),
+    document.getElementById('caricomCountryField'),
+    false
+  );
+  wireSelectOther(
+    document.getElementById('jobTitleSelect'),
+    document.getElementById('jobTitleOtherWrap'),
+    document.getElementById('jobTitleOtherInput'),
+    document.getElementById('jobTitle'),
+    true
+  );
+  wireSelectOther(
+    document.getElementById('educationSelect'),
+    document.getElementById('educationOtherWrap'),
+    document.getElementById('educationOtherInput'),
+    document.getElementById('education'),
+    false
+  );
+
+  // ---- "Check all that apply, plus an Other box that reveals free text" ----
+  function wireCheckboxOther(groupEl, otherCheckEl, otherWrapEl, otherInputEl, hiddenFieldEl) {
+    function sync() {
+      const checked = Array.from(groupEl.querySelectorAll('input[type="checkbox"]:checked'))
+        .filter(cb => cb !== otherCheckEl)
+        .map(cb => cb.value);
+      otherWrapEl.style.display = otherCheckEl.checked ? '' : 'none';
+      if (otherCheckEl.checked && otherInputEl.value.trim()) {
+        checked.push(otherInputEl.value.trim());
+      }
+      hiddenFieldEl.value = checked.join(', ');
+    }
+    groupEl.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', sync));
+    otherInputEl.addEventListener('input', sync);
+    sync();
+  }
+
+  wireCheckboxOther(
+    document.getElementById('keySkillsGroup'),
+    document.getElementById('keySkillsOtherCheck'),
+    document.getElementById('keySkillsOtherWrap'),
+    document.getElementById('keySkillsOtherInput'),
+    document.getElementById('keySkills')
+  );
+  wireCheckboxOther(
+    document.getElementById('certificationsGroup'),
+    document.getElementById('certificationsOtherCheck'),
+    document.getElementById('certificationsOtherWrap'),
+    document.getElementById('certificationsOtherInput'),
+    document.getElementById('certifications')
+  );
+
+  // Key Skills is required — since it's now checkboxes instead of a native
+  // required textarea, enforce it manually right before submit.
+  form.addEventListener('submit', (e) => {
+    const keySkillsField = document.getElementById('keySkills');
+    if (!keySkillsField.value.trim()) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      showStatus('error', translations[currentLang].err_keySkillsRequired);
+      document.getElementById('keySkillsGroup').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, true);
+
+
+
+  const nationalitySelect = document.getElementById('nationalityStatus');
+  const caricomBlock = document.getElementById('caricomBlock');
+  const caricomCountryBlock = document.getElementById('caricomCountryBlock');
+  const workPermitBlock = document.getElementById('workPermitBlock');
+  const permitExpiryBlock = document.getElementById('permitExpiryBlock');
+  const sponsorshipBlock = document.getElementById('sponsorshipBlock');
+  const workAuthDocBlock = document.getElementById('workAuthDocBlock');
+  const workAuthDocumentFile = document.getElementById('workAuthDocumentFile');
+
+  function updateForeignSubfields() {
+    const permitVal = (document.querySelector('input[name="workPermitStatus"]:checked') || {}).value;
+    const showExpiry = permitVal === 'Yes';
+    const showSponsorship = permitVal === 'No' || permitVal === 'Application in progress';
+    permitExpiryBlock.style.display = showExpiry ? '' : 'none';
+    sponsorshipBlock.style.display = showSponsorship ? '' : 'none';
+    document.querySelectorAll('input[name="sponsorshipRequired"]').forEach(r => r.required = showSponsorship);
+    if (!showSponsorship) {
+      document.querySelectorAll('input[name="sponsorshipRequired"]').forEach(r => r.checked = false);
+    }
+  }
+
+  function updateWorkAuthVisibility() {
+    const val = nationalitySelect.value;
+    const isCaricom = val === 'CARICOM National';
+    const isForeign = val === 'Non-CARICOM Foreign National';
+
+    caricomBlock.style.display = isCaricom ? '' : 'none';
+    caricomCountryBlock.style.display = isCaricom ? '' : 'none';
+    workPermitBlock.style.display = isForeign ? '' : 'none';
+    workAuthDocBlock.style.display = (isCaricom || isForeign) ? '' : 'none';
+    workAuthDocumentFile.required = (isCaricom || isForeign);
+
+    document.querySelectorAll('input[name="caricomSkillsCertificate"]').forEach(r => r.required = isCaricom);
+    document.querySelectorAll('input[name="workPermitStatus"]').forEach(r => r.required = isForeign);
+
+    if (!isForeign) {
+      permitExpiryBlock.style.display = 'none';
+      sponsorshipBlock.style.display = 'none';
+      document.querySelectorAll('input[name="sponsorshipRequired"]').forEach(r => { r.required = false; r.checked = false; });
+    } else {
+      updateForeignSubfields();
+    }
+  }
+
+  nationalitySelect.addEventListener('change', updateWorkAuthVisibility);
+  document.querySelectorAll('input[name="workPermitStatus"]').forEach(r => r.addEventListener('change', updateForeignSubfields));
+  updateWorkAuthVisibility();
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function showStatus(type, message) {
+    const toast = document.createElement('div');
+    toast.className = "toast " + type;
+    toast.setAttribute('role', type === 'error' ? 'alert' : 'status');
+
+    const text = document.createElement('div');
+    text.textContent = message;
+    toast.appendChild(text);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = "toast-close";
+    closeBtn.setAttribute('aria-label', 'Dismiss');
+    closeBtn.innerHTML = "&times;";
+    toast.appendChild(closeBtn);
+
+    const bar = document.createElement('div');
+    bar.className = "toast-bar";
+    toast.appendChild(bar);
+
+    function dismiss() {
+      if (toast.dataset.dismissing) return;
+      toast.dataset.dismissing = "1";
+      toast.classList.add('leaving');
+      setTimeout(() => toast.remove(), 300);
+    }
+
+    closeBtn.addEventListener('click', dismiss);
+    const autoDismiss = setTimeout(dismiss, 6000);
+    closeBtn.addEventListener('click', () => clearTimeout(autoDismiss));
+
+    toastStack.appendChild(toast);
+  }
+
+  function generateApplicationId() {
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const datePart = now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate());
+    const timePart = pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds());
+    return "PR-" + datePart + "-" + timePart;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT_URL_HERE")) {
+      showStatus("error", translations[currentLang].err_notConnected);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = translations[currentLang].submitBtnLoading;
+
+    try {
+      for (const f of fileDropFields) {
+        const file = f.input.files[0];
+        if (file) {
+          const base64 = await fileToBase64(file);
+          document.getElementById(f.prefix + 'DataField').value = base64;
+          document.getElementById(f.prefix + 'NameField').value = file.name;
+          document.getElementById(f.prefix + 'MimeTypeField').value = file.type || "application/octet-stream";
+        }
+      }
+
+      const applicationId = generateApplicationId();
+      document.getElementById('clientApplicationIdField').value = applicationId;
+
+      const excludedKeys = new Set(["resumeFile"]);
+      const formData = new FormData(form);
+      const payload = new URLSearchParams();
+      for (const [key, value] of formData.entries()) {
+        if (!excludedKeys.has(key)) {
+          payload.append(key, value);
+        }
+      }
+
+      // Google Apps Script Web App responses can't carry CORS headers, and
+      // (as of recent Google changes) its pages can't be framed either — so
+      // there's no way for the browser to read a response back at all. We
+      // send the request with mode: 'no-cors', which still reliably delivers
+      // the POST and lets Apps Script do its work; we just can't read a
+      // confirmation back, so the reference ID is generated here and sent
+      // along so it matches what's saved in the Sheet.
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: payload
+      });
+
+      form.reset();
+      fileDropFields.forEach(f => {
+        f.nameDisplay.textContent = "";
+        f.dropText.textContent = translations[currentLang].fileDropDefault;
+      });
+      applyLanguage(currentLang);
+      updateWorkAuthVisibility();
+      clearDraft();
+      showConfirmation(applicationId);
+
+    } catch (err) {
+      showStatus("error", translations[currentLang].err_network);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = translations[currentLang].submitBtn;
+    }
+  });
+
+  // ---- Confirmation panel (shown in place of the form after success) ----
+  function showConfirmation(applicationId) {
+    document.getElementById('confirmationIdValue').textContent = applicationId;
+    form.style.display = 'none';
+    document.getElementById('progressBarWrap').style.display = 'none';
+    document.getElementById('confirmationPanel').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('submitAnotherBtn').addEventListener('click', () => {
+    document.getElementById('confirmationPanel').style.display = 'none';
+    document.getElementById('progressBarWrap').style.display = '';
+    form.style.display = '';
+    form.reset();
+    updateWorkAuthVisibility();
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ---- Scroll-reveal for section panels ----
+  const revealTargets = document.querySelectorAll('.section, .submit-bar');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealTargets.forEach(el => revealObserver.observe(el));
+  } else {
+    revealTargets.forEach(el => el.classList.add('in-view'));
+  }
+
+  // ---- Sticky progress indicator (Step X of 6) ----
+  const TOTAL_STEPS = 6;
+  const progressLabel = document.getElementById('progressLabel');
+  const progressFill = document.getElementById('progressFill');
+  const stepSections = Array.from(document.querySelectorAll('.section[data-step]'));
+
+  function updateProgress() {
+    const viewportMarker = window.innerHeight * 0.35;
+    let currentStep = 1;
+    stepSections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= viewportMarker) {
+        currentStep = parseInt(section.getAttribute('data-step'), 10);
+      }
+    });
+    progressLabel.textContent = translations[currentLang].step_label
+      .replace('{n}', currentStep).replace('{total}', TOTAL_STEPS);
+    progressFill.style.width = ((currentStep / TOTAL_STEPS) * 100) + '%';
+  }
+
+  let progressTicking = false;
+  window.addEventListener('scroll', () => {
+    if (!progressTicking) {
+      window.requestAnimationFrame(() => {
+        updateProgress();
+        progressTicking = false;
+      });
+      progressTicking = true;
+    }
+  });
+  updateProgress();
+  document.getElementById('langBtnEn').addEventListener('click', updateProgress);
+  document.getElementById('langBtnEs').addEventListener('click', updateProgress);
+
+  // ---- Language switch tooltip nudge (first-time visitors only) ----
+  const langSwitch = document.getElementById('langSwitch');
+  const langTooltip = document.getElementById('langTooltip');
+  const langTooltipDismiss = document.getElementById('langTooltipDismiss');
+
+  function dismissLangTooltip() {
+    langTooltip.style.display = 'none';
+    langSwitch.classList.remove('nudge');
+    localStorage.setItem('pacrimLangTooltipSeen', '1');
+  }
+
+  if (!localStorage.getItem('pacrimLangTooltipSeen') && currentLang === 'en') {
+    setTimeout(() => {
+      langTooltip.style.display = 'block';
+      langSwitch.classList.add('nudge');
+    }, 900);
+    setTimeout(dismissLangTooltip, 9000);
+  }
+
+  langTooltipDismiss.addEventListener('click', dismissLangTooltip);
+  document.getElementById('langBtnEn').addEventListener('click', dismissLangTooltip);
+  document.getElementById('langBtnEs').addEventListener('click', dismissLangTooltip);
+
+  // ---- Lightweight, privacy-respecting funnel tracking ----
+  // Fires once, the first time someone actually interacts with the form.
+  // No names, no PII — just a timestamp, so completions (rows in the
+  // Applicants sheet) can be compared against starts to see drop-off.
+  let startTracked = false;
+  function trackFormStart() {
+    if (startTracked) return;
+    startTracked = true;
+    if (SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT_URL_HERE")) return;
+    const payload = new URLSearchParams();
+    payload.append('action', 'trackEvent');
+    payload.append('eventType', 'start');
+    fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: payload }).catch(() => {});
+  }
+  form.addEventListener('input', trackFormStart, { once: true });
+  form.addEventListener('change', trackFormStart, { once: true });
+
+  // ---- Autosave draft to the browser (not the server) so a dropped ----
+  // ---- connection or accidental tab close doesn't lose typed progress. ----
+  // ---- Files themselves are never saved this way, only text/selections. ----
+  const DRAFT_KEY = 'pacrimApplicationDraft_v1';
+  const SIMPLE_FIELD_IDS = ['fullName', 'email', 'phone', 'roleCategory', 'yearsExperience', 'availability', 'workHistory', 'additionalNotes', 'permitExpiry', 'nationalityStatus'];
+  const RADIO_NAMES = ['remoteSite', 'referencesAvailable', 'caricomSkillsCertificate', 'workPermitStatus', 'sponsorshipRequired'];
+  const SELECT_OTHER_FIELDS = [
+    { key: 'location', select: 'locationSelect', other: 'locationOtherInput' },
+    { key: 'jobTitle', select: 'jobTitleSelect', other: 'jobTitleOtherInput' },
+    { key: 'caricomCountry', select: 'caricomCountrySelect', other: 'caricomCountryOtherInput' },
+    { key: 'education', select: 'educationSelect', other: 'educationOtherInput' }
+  ];
+  const CHECKBOX_GROUPS_DRAFT = [
+    { key: 'keySkills', group: 'keySkillsGroup', otherCheck: 'keySkillsOtherCheck', otherInput: 'keySkillsOtherInput' },
+    { key: 'certifications', group: 'certificationsGroup', otherCheck: 'certificationsOtherCheck', otherInput: 'certificationsOtherInput' }
+  ];
+
+  function buildDraft() {
+    const draft = { simple: {}, radios: {}, selectOther: {}, checkboxGroups: {} };
+    SIMPLE_FIELD_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) draft.simple[id] = el.value;
+    });
+    RADIO_NAMES.forEach(name => {
+      const checked = form.querySelector('input[name="' + name + '"]:checked');
+      if (checked) draft.radios[name] = checked.value;
+    });
+    SELECT_OTHER_FIELDS.forEach(f => {
+      const sel = document.getElementById(f.select);
+      const other = document.getElementById(f.other);
+      if (sel) draft.selectOther[f.key] = { select: sel.value, other: other ? other.value : '' };
+    });
+    CHECKBOX_GROUPS_DRAFT.forEach(g => {
+      const groupEl = document.getElementById(g.group);
+      const otherCheck = document.getElementById(g.otherCheck);
+      const otherInput = document.getElementById(g.otherInput);
+      const checkedValues = Array.from(groupEl.querySelectorAll('input[type="checkbox"][value]:checked')).map(cb => cb.value);
+      draft.checkboxGroups[g.key] = {
+        checked: checkedValues,
+        other: otherCheck ? otherCheck.checked : false,
+        otherValue: otherInput ? otherInput.value : ''
+      };
+    });
+    return draft;
+  }
+
+  let saveDraftTimeout = null;
+  function saveDraft() {
+    clearTimeout(saveDraftTimeout);
+    saveDraftTimeout = setTimeout(() => {
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(buildDraft())); } catch (e) {}
+    }, 400);
+  }
+
+  function restoreDraft() {
+    let raw;
+    try { raw = localStorage.getItem(DRAFT_KEY); } catch (e) { return false; }
+    if (!raw) return false;
+    let draft;
+    try { draft = JSON.parse(raw); } catch (e) { return false; }
+
+    Object.keys(draft.simple || {}).forEach(id => {
+      const el = document.getElementById(id);
+      if (el && draft.simple[id]) el.value = draft.simple[id];
+    });
+    Object.keys(draft.radios || {}).forEach(name => {
+      const val = draft.radios[name];
+      const el = form.querySelector('input[name="' + name + '"][value="' + val.replace(/"/g, '\\"') + '"]');
+      if (el) el.checked = true;
+    });
+    SELECT_OTHER_FIELDS.forEach(f => {
+      const saved = (draft.selectOther || {})[f.key];
+      if (!saved) return;
+      const sel = document.getElementById(f.select);
+      const other = document.getElementById(f.other);
+      if (sel && saved.select) sel.value = saved.select;
+      if (other && saved.other) other.value = saved.other;
+      if (sel) sel.dispatchEvent(new Event('change'));
+    });
+    CHECKBOX_GROUPS_DRAFT.forEach(g => {
+      const saved = (draft.checkboxGroups || {})[g.key];
+      if (!saved) return;
+      const groupEl = document.getElementById(g.group);
+      (saved.checked || []).forEach(val => {
+        const cb = groupEl.querySelector('input[type="checkbox"][value="' + val.replace(/"/g, '\\"') + '"]');
+        if (cb) cb.checked = true;
+      });
+      const otherCheck = document.getElementById(g.otherCheck);
+      const otherInput = document.getElementById(g.otherInput);
+      if (otherCheck && saved.other) otherCheck.checked = true;
+      if (otherInput && saved.otherValue) otherInput.value = saved.otherValue;
+      if (otherCheck) otherCheck.dispatchEvent(new Event('change'));
+    });
+
+    updateWorkAuthVisibility();
+    return true;
+  }
+
+  function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+  }
+
+  form.addEventListener('input', saveDraft);
+  form.addEventListener('change', saveDraft);
+
+  if (restoreDraft()) {
+    showStatus('warning', translations[currentLang].draft_restored);
+    updateProgress();
+  }
+</script>
+
+</body>
+</html>
