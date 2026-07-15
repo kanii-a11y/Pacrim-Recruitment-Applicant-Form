@@ -6,7 +6,26 @@
 <title>PacRim Recruitment — Apply Now</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script>
+  // Respect the browser's own Data Saver setting / a detected slow
+  // connection by skipping the custom web fonts (a few hundred KB across
+  // 9 font files) and falling back to the system font stack already
+  // defined in this page's CSS. Runs before the fonts would otherwise
+  // be requested, so it actually prevents the download rather than
+  // cancelling it partway through.
+  (function () {
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var isSlow = conn && (conn.saveData === true || ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1);
+    if (!isSlow) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap';
+      document.head.appendChild(link);
+    } else {
+      document.documentElement.classList.add('data-saver');
+    }
+  })();
+</script>
 <style>
   :root {
     --void: #FFFFFF;
@@ -93,42 +112,55 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 6px;
     opacity: 0;
     animation: riseIn 0.7s 0.15s ease forwards;
   }
 
+  .lang-switch-caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--ink-300);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   .lang-switch {
     display: flex;
-    gap: 3px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--line-soft);
+    gap: 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid var(--amber-500);
     border-radius: 999px;
-    padding: 4px;
+    padding: 5px;
     backdrop-filter: blur(6px);
+    box-shadow: 0 4px 16px rgba(201,130,31,0.18);
   }
 
   .lang-switch.nudge { animation: nudgeRing 1.6s ease-in-out 2; }
 
   @keyframes nudgeRing {
     0%, 100% { box-shadow: 0 0 0 0 rgba(201,130,31,0); }
-    50% { box-shadow: 0 0 0 6px rgba(201,130,31,0.22); }
+    50% { box-shadow: 0 0 0 8px rgba(201,130,31,0.28); }
   }
 
   .lang-btn {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     border: none;
     background: transparent;
     color: var(--ink-300);
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    padding: 7px 13px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+    padding: 9px 16px;
     border-radius: 999px;
     cursor: pointer;
+    min-height: 40px;
     transition: background 0.2s, color 0.2s, transform 0.15s;
   }
 
@@ -139,15 +171,7 @@
     color: var(--ink-on-amber);
   }
 
-  .lang-btn .lg-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.5;
-  }
-
-  .lang-btn.active .lg-dot { opacity: 1; }
+  .lang-btn .lg-flag { font-size: 15px; line-height: 1; }
 
   .lang-tooltip {
     background: var(--panel-raised);
@@ -199,6 +223,86 @@
     .lang-tooltip { text-align: center; }
   }
 
+  /* ---- First-visit language chooser (full-screen, unmissable) ---- */
+  .lang-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(10,14,20,0.82);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: gateFadeIn 0.25s ease;
+  }
+
+  @keyframes gateFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .lang-gate-card {
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+
+  .lang-gate-globe { font-size: 34px; margin-bottom: 10px; }
+
+  .lang-gate-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink-100);
+    margin-bottom: 6px;
+  }
+
+  .lang-gate-sub {
+    font-size: 13px;
+    color: var(--ink-300);
+    margin-bottom: 22px;
+  }
+
+  .lang-gate-options {
+    display: flex;
+    gap: 12px;
+  }
+
+  .lang-gate-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: var(--panel);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 20px 14px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-100);
+    min-height: 88px;
+    transition: border-color 0.15s, transform 0.15s, background 0.15s;
+  }
+
+  .lang-gate-btn:hover,
+  .lang-gate-btn:focus-visible {
+    border-color: var(--amber-500);
+    background: rgba(201,130,31,0.08);
+    transform: translateY(-2px);
+  }
+
+  .lang-gate-btn .lg-flag { font-size: 30px; line-height: 1; }
+
+  @media (max-width: 420px) {
+    .lang-gate-card { padding: 28px 20px; }
+    .lang-gate-options { flex-direction: column; }
+  }
+
   .eyebrow {
     display: inline-flex;
     align-items: center;
@@ -238,6 +342,51 @@
     margin: 0 auto;
     opacity: 0;
     animation: riseIn 0.7s 0.4s ease forwards;
+  }
+
+  .whatsapp-help {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(37,211,102,0.1);
+    border: 1px solid rgba(37,211,102,0.4);
+    color: #1a9c4b;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    margin: 18px 0 4px;
+    opacity: 0;
+    animation: riseIn 0.7s 0.45s ease forwards;
+    transition: transform 0.15s, background 0.2s;
+  }
+
+  .whatsapp-help:hover { transform: translateY(-1px); background: rgba(37,211,102,0.18); }
+  .whatsapp-help .wa-icon { font-size: 17px; }
+
+  .docs-heads-up {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(201,130,31,0.08);
+    border: 1px solid rgba(201,130,31,0.3);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    max-width: 480px;
+    margin: 0 auto 6px;
+    font-size: 13.5px;
+    color: var(--ink-300);
+    text-align: left;
+    opacity: 0;
+    animation: riseIn 0.7s 0.5s ease forwards;
+  }
+
+  .docs-heads-up .dh-icon { font-size: 18px; flex-shrink: 0; }
+  .docs-heads-up strong { color: var(--ink-100); }
+
+  .confirmation-whatsapp {
+    margin-top: 8px;
   }
 
   @keyframes riseIn {
@@ -854,9 +1003,199 @@
     .top-band { padding: 40px 20px 64px; }
     h1 { font-size: 26px; }
   }
+
+  /* ---- Wizard: one question at a time ---- */
+  body.wizard-mode .section { display: none; }
+  body.wizard-mode .section.wizard-section-active { display: block; }
+  body.wizard-mode .section .field,
+  body.wizard-mode .section .conditional-block { display: none; }
+  body.wizard-mode .section .field.wizard-field-active,
+  body.wizard-mode .section .conditional-block.wizard-field-active { display: flex; }
+  body.wizard-mode .field-grid { display: block; }
+
+  body.wizard-mode .section {
+    animation: riseIn 0.35s ease forwards;
+  }
+
+  .wizard-field-active label {
+    font-size: 17px;
+  }
+
+  .wizard-field-active select,
+  .wizard-field-active input[type="text"],
+  .wizard-field-active input[type="email"],
+  .wizard-field-active input[type="tel"],
+  .wizard-field-active input[type="date"],
+  .wizard-field-active textarea {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+
+  .wizard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .wizard-nav-spacer { flex: 1; }
+
+  .wizard-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px 22px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: 1px solid var(--line);
+    min-height: 48px;
+    transition: transform 0.15s, background 0.2s, border-color 0.2s;
+  }
+
+  .wizard-btn:active { transform: scale(0.97); }
+
+  .wizard-btn-back {
+    background: var(--panel);
+    color: var(--ink-300);
+  }
+
+  .wizard-btn-back:hover { color: var(--ink-100); border-color: var(--ink-300); }
+
+  .wizard-btn-next {
+    background: var(--amber-500);
+    color: var(--ink-on-amber);
+    border-color: var(--amber-500);
+    box-shadow: 0 8px 20px var(--amber-glow);
+  }
+
+  .wizard-btn-next:hover { background: var(--amber-600); border-color: var(--amber-600); }
+
+  .wizard-progress-count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-300);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .autosave-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-500);
+    text-align: center;
+    justify-content: center;
+    margin: 10px auto 0;
+    max-width: 480px;
+  }
+
+  .clear-draft-link {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--ink-500);
+    font-size: 11.5px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    margin: 10px auto 0;
+    padding: 6px;
+    font-family: var(--font-body);
+  }
+
+  .clear-draft-link:hover { color: var(--danger); }
+
+  /* ---- Speech-bubble validation tooltip ---- */
+  .field-tooltip {
+    position: absolute;
+    z-index: 20;
+    max-width: 300px;
+    background: var(--danger);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 10px 14px;
+    border-radius: 10px;
+    box-shadow: 0 10px 24px rgba(255,110,110,0.35);
+    animation: tooltipPop 0.18s ease;
+  }
+
+  .field-tooltip::after {
+    content: "";
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    background: var(--danger);
+    transform: rotate(45deg);
+  }
+
+  .field-tooltip.tt-below::after { top: -5px; left: 22px; }
+  .field-tooltip.tt-above::after { bottom: -5px; left: 22px; }
+
+  @keyframes tooltipPop {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .field-invalid select,
+  .field-invalid input,
+  .field-invalid textarea {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 3px var(--danger-bg) !important;
+  }
+
+  .field-invalid .radio-row,
+  .field-invalid .checkbox-group {
+    outline: 2px solid var(--danger);
+    outline-offset: 6px;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 560px) {
+    .wizard-nav { flex-wrap: wrap; }
+    .wizard-btn { flex: 1; }
+  }
+
+  /* ---- Data Saver mode: cut decorative animation & GPU-heavy effects ---- */
+  html.data-saver *,
+  html.data-saver *::before,
+  html.data-saver *::after {
+    animation-duration: 0.001s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.001s !important;
+  }
+  html.data-saver .lang-switch,
+  html.data-saver .lang-gate {
+    backdrop-filter: none !important;
+  }
 </style>
 </head>
 <body>
+  <div class="lang-gate" id="langGate" style="display:none;" role="dialog" aria-modal="true" aria-label="Choose your language">
+    <div class="lang-gate-card">
+      <div class="lang-gate-globe">&#127760;</div>
+      <div class="lang-gate-title">Choose your language</div>
+      <div class="lang-gate-sub">Elija su idioma</div>
+      <div class="lang-gate-options">
+        <button type="button" class="lang-gate-btn" data-lang="en" id="langGateEn">
+          <span class="lg-flag">&#127482;&#127480;</span>English
+        </button>
+        <button type="button" class="lang-gate-btn" data-lang="es" id="langGateEs">
+          <span class="lg-flag">&#127466;&#127480;</span>Español
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="grid-backdrop"></div>
   <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 
@@ -864,9 +1203,10 @@
   <div class="top-band">
     <div class="top-band-inner">
       <div class="lang-switch-wrap" id="langSwitchWrap">
+        <div class="lang-switch-caption">&#127760; <span data-i18n="lang_caption">Language / Idioma</span></div>
         <div class="lang-switch" role="group" aria-label="Language / Idioma" id="langSwitch">
-          <button type="button" class="lang-btn active" data-lang="en" id="langBtnEn"><span class="lg-dot"></span>EN</button>
-          <button type="button" class="lang-btn" data-lang="es" id="langBtnEs"><span class="lg-dot"></span>ES</button>
+          <button type="button" class="lang-btn active" data-lang="en" id="langBtnEn"><span class="lg-flag">&#127482;&#127480;</span>English</button>
+          <button type="button" class="lang-btn" data-lang="es" id="langBtnEs"><span class="lg-flag">&#127466;&#127480;</span>Español</button>
         </div>
         <div class="lang-tooltip" id="langTooltip" style="display:none;">
           <span data-i18n="lang_tooltip">Also available in Spanish · También en español</span>
@@ -877,6 +1217,15 @@
       <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">PacRim Is Hiring</span></span>
       <h1 data-i18n="h1">Apply for a Role with PacRim</h1>
       <p class="subhead" data-i18n="subhead">Submit your details below for current and upcoming openings across oil &amp; gas, mining, and renewables projects in Guyana.</p>
+
+      <a class="whatsapp-help" href="https://wa.me/5927432930" target="_blank" rel="noopener">
+        <span class="wa-icon">&#128241;</span><span data-i18n="whatsapp_help">Need help? WhatsApp us at 592-743-2930</span>
+      </a>
+
+      <div class="docs-heads-up">
+        <span class="dh-icon">&#128218;</span>
+        <span data-i18n="docs_heads_up">You'll need a photo of your <strong>ID or passport</strong> — that's the only document that's required. Everything else you can skip and come back to later.</span>
+      </div>
 
       <div class="job-banner" id="jobBanner" style="display:none;">
         <div class="job-banner-label" data-i18n="applying_for">Applying for</div>
@@ -903,7 +1252,7 @@
   </div>
 
   <div class="form-wrap">
-    <form id="applicationForm">
+    <form id="applicationForm" novalidate>
 
       <!-- Section 1: Personal Info -->
       <div class="section" data-step="1">
@@ -926,17 +1275,17 @@
             <label for="locationSelect"><span data-i18n="label_location">Town / City &amp; Region</span><span class="req">*</span></label>
             <select id="locationSelect" required>
               <option value="" disabled selected data-i18n="opt_selectLocation">Select your area</option>
-              <option value="Georgetown, Region 4 (Demerara-Mahaica)">Georgetown, Region 4 (Demerara-Mahaica)</option>
-              <option value="Linden, Region 10 (Upper Demerara-Berbice)">Linden, Region 10 (Upper Demerara-Berbice)</option>
-              <option value="New Amsterdam, Region 6 (East Berbice-Corentyne)">New Amsterdam, Region 6 (East Berbice-Corentyne)</option>
-              <option value="Anna Regina, Region 2 (Pomeroon-Supenaam)">Anna Regina, Region 2 (Pomeroon-Supenaam)</option>
-              <option value="Bartica, Region 7 (Cuyuni-Mazaruni)">Bartica, Region 7 (Cuyuni-Mazaruni)</option>
-              <option value="Vreed-en-Hoop, Region 3 (Essequibo Islands-West Demerara)">Vreed-en-Hoop, Region 3 (Essequibo Islands-West Demerara)</option>
-              <option value="Fort Wellington, Region 5 (Mahaica-Berbice)">Fort Wellington, Region 5 (Mahaica-Berbice)</option>
-              <option value="Mahdia, Region 8 (Potaro-Siparuni)">Mahdia, Region 8 (Potaro-Siparuni)</option>
-              <option value="Lethem, Region 9 (Upper Takutu-Upper Essequibo)">Lethem, Region 9 (Upper Takutu-Upper Essequibo)</option>
-              <option value="Mabaruma, Region 1 (Barima-Waini)">Mabaruma, Region 1 (Barima-Waini)</option>
-              <option value="Other">Other</option>
+              <option value="Georgetown, Region 4 (Demerara-Mahaica)" data-i18n="opt_loc_georgetown">Georgetown, Region 4 (Demerara-Mahaica)</option>
+              <option value="Linden, Region 10 (Upper Demerara-Berbice)" data-i18n="opt_loc_linden">Linden, Region 10 (Upper Demerara-Berbice)</option>
+              <option value="New Amsterdam, Region 6 (East Berbice-Corentyne)" data-i18n="opt_loc_newAmsterdam">New Amsterdam, Region 6 (East Berbice-Corentyne)</option>
+              <option value="Anna Regina, Region 2 (Pomeroon-Supenaam)" data-i18n="opt_loc_annaRegina">Anna Regina, Region 2 (Pomeroon-Supenaam)</option>
+              <option value="Bartica, Region 7 (Cuyuni-Mazaruni)" data-i18n="opt_loc_bartica">Bartica, Region 7 (Cuyuni-Mazaruni)</option>
+              <option value="Vreed-en-Hoop, Region 3 (Essequibo Islands-West Demerara)" data-i18n="opt_loc_vreedEnHoop">Vreed-en-Hoop, Region 3 (Essequibo Islands-West Demerara)</option>
+              <option value="Fort Wellington, Region 5 (Mahaica-Berbice)" data-i18n="opt_loc_fortWellington">Fort Wellington, Region 5 (Mahaica-Berbice)</option>
+              <option value="Mahdia, Region 8 (Potaro-Siparuni)" data-i18n="opt_loc_mahdia">Mahdia, Region 8 (Potaro-Siparuni)</option>
+              <option value="Lethem, Region 9 (Upper Takutu-Upper Essequibo)" data-i18n="opt_loc_lethem">Lethem, Region 9 (Upper Takutu-Upper Essequibo)</option>
+              <option value="Mabaruma, Region 1 (Barima-Waini)" data-i18n="opt_loc_mabaruma">Mabaruma, Region 1 (Barima-Waini)</option>
+              <option value="Other" data-i18n="opt_other3">Other</option>
             </select>
             <div class="other-input-wrap" id="locationOtherWrap" style="display:none;">
               <input type="text" id="locationOtherInput" placeholder="e.g. your village or nearest town" data-i18n-placeholder="ph_location_other">
@@ -974,21 +1323,21 @@
             <label for="caricomCountrySelect"><span data-i18n="label_caricomCountry">Country of CARICOM Citizenship</span><span class="optional" data-i18n="optional">optional</span></label>
             <select id="caricomCountrySelect">
               <option value="" selected data-i18n="opt_selectCountry">Select a country</option>
-              <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-              <option value="Bahamas">Bahamas</option>
-              <option value="Barbados">Barbados</option>
-              <option value="Belize">Belize</option>
-              <option value="Dominica">Dominica</option>
-              <option value="Grenada">Grenada</option>
-              <option value="Haiti">Haiti</option>
-              <option value="Jamaica">Jamaica</option>
-              <option value="Montserrat">Montserrat</option>
-              <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-              <option value="Saint Lucia">Saint Lucia</option>
-              <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
-              <option value="Suriname">Suriname</option>
-              <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-              <option value="Other">Other</option>
+              <option value="Antigua and Barbuda" data-i18n="opt_c_antigua">Antigua and Barbuda</option>
+              <option value="Bahamas" data-i18n="opt_c_bahamas">Bahamas</option>
+              <option value="Barbados" data-i18n="opt_c_barbados">Barbados</option>
+              <option value="Belize" data-i18n="opt_c_belize">Belize</option>
+              <option value="Dominica" data-i18n="opt_c_dominica">Dominica</option>
+              <option value="Grenada" data-i18n="opt_c_grenada">Grenada</option>
+              <option value="Haiti" data-i18n="opt_c_haiti">Haiti</option>
+              <option value="Jamaica" data-i18n="opt_c_jamaica">Jamaica</option>
+              <option value="Montserrat" data-i18n="opt_c_montserrat">Montserrat</option>
+              <option value="Saint Kitts and Nevis" data-i18n="opt_c_stKitts">Saint Kitts and Nevis</option>
+              <option value="Saint Lucia" data-i18n="opt_c_stLucia">Saint Lucia</option>
+              <option value="Saint Vincent and the Grenadines" data-i18n="opt_c_stVincent">Saint Vincent and the Grenadines</option>
+              <option value="Suriname" data-i18n="opt_c_suriname">Suriname</option>
+              <option value="Trinidad and Tobago" data-i18n="opt_c_trinidad">Trinidad and Tobago</option>
+              <option value="Other" data-i18n="opt_other3">Other</option>
             </select>
             <div class="other-input-wrap" id="caricomCountryOtherWrap" style="display:none;">
               <input type="text" id="caricomCountryOtherInput" placeholder="Enter your country" data-i18n-placeholder="ph_caricomCountry">
@@ -1040,29 +1389,29 @@
             <label for="jobTitleSelect"><span data-i18n="label_jobTitle">Specific Job Title</span><span class="req">*</span></label>
             <select id="jobTitleSelect" required>
               <option value="" disabled selected data-i18n="opt_selectJobTitle">Select a job title</option>
-              <option value="Welder">Welder</option>
-              <option value="Scaffolder">Scaffolder</option>
-              <option value="Electrician">Electrician</option>
-              <option value="Heavy Equipment Operator">Heavy Equipment Operator</option>
-              <option value="Crane Operator">Crane Operator</option>
-              <option value="Rigger">Rigger</option>
-              <option value="Pipefitter">Pipefitter</option>
-              <option value="Mechanic">Mechanic</option>
-              <option value="Plumber">Plumber</option>
-              <option value="Carpenter">Carpenter</option>
-              <option value="Painter">Painter</option>
-              <option value="Camp Cook">Camp Cook</option>
-              <option value="Catering Assistant">Catering Assistant</option>
-              <option value="Housekeeping / Custodial">Housekeeping / Custodial</option>
-              <option value="Logistics Coordinator">Logistics Coordinator</option>
-              <option value="Warehouse Associate">Warehouse Associate</option>
-              <option value="Truck Driver">Truck Driver</option>
-              <option value="Safety Officer (HSE)">Safety Officer (HSE)</option>
-              <option value="Site Supervisor">Site Supervisor</option>
-              <option value="Administrative Assistant">Administrative Assistant</option>
-              <option value="Security Guard">Security Guard</option>
-              <option value="General Laborer">General Laborer</option>
-              <option value="Other">Other</option>
+              <option value="Welder" data-i18n="opt_jt_welder">Welder</option>
+              <option value="Scaffolder" data-i18n="opt_jt_scaffolder">Scaffolder</option>
+              <option value="Electrician" data-i18n="opt_jt_electrician">Electrician</option>
+              <option value="Heavy Equipment Operator" data-i18n="opt_jt_heavyEquipOperator">Heavy Equipment Operator</option>
+              <option value="Crane Operator" data-i18n="opt_jt_craneOperator">Crane Operator</option>
+              <option value="Rigger" data-i18n="opt_jt_rigger">Rigger</option>
+              <option value="Pipefitter" data-i18n="opt_jt_pipefitter">Pipefitter</option>
+              <option value="Mechanic" data-i18n="opt_jt_mechanic">Mechanic</option>
+              <option value="Plumber" data-i18n="opt_jt_plumber">Plumber</option>
+              <option value="Carpenter" data-i18n="opt_jt_carpenter">Carpenter</option>
+              <option value="Painter" data-i18n="opt_jt_painter">Painter</option>
+              <option value="Camp Cook" data-i18n="opt_jt_campCook">Camp Cook</option>
+              <option value="Catering Assistant" data-i18n="opt_jt_cateringAssistant">Catering Assistant</option>
+              <option value="Housekeeping / Custodial" data-i18n="opt_jt_housekeeping">Housekeeping / Custodial</option>
+              <option value="Logistics Coordinator" data-i18n="opt_jt_logisticsCoordinator">Logistics Coordinator</option>
+              <option value="Warehouse Associate" data-i18n="opt_jt_warehouseAssociate">Warehouse Associate</option>
+              <option value="Truck Driver" data-i18n="opt_jt_truckDriver">Truck Driver</option>
+              <option value="Safety Officer (HSE)" data-i18n="opt_jt_safetyOfficer">Safety Officer (HSE)</option>
+              <option value="Site Supervisor" data-i18n="opt_jt_siteSupervisor">Site Supervisor</option>
+              <option value="Administrative Assistant" data-i18n="opt_jt_adminAssistant">Administrative Assistant</option>
+              <option value="Security Guard" data-i18n="opt_jt_securityGuard">Security Guard</option>
+              <option value="General Laborer" data-i18n="opt_jt_generalLaborer">General Laborer</option>
+              <option value="Other" data-i18n="opt_other3">Other</option>
             </select>
             <div class="other-input-wrap" id="jobTitleOtherWrap" style="display:none;">
               <input type="text" id="jobTitleOtherInput" placeholder="Enter the job title" data-i18n-placeholder="ph_jobTitle">
@@ -1090,7 +1439,7 @@
               <option value="Other" data-i18n="opt_other2">Other</option>
             </select>
           </div>
-          <div class="field full">
+          <div class="field full" id="remoteSiteBlock">
             <label><span data-i18n="label_remoteSite">Willing to Work at a Remote Site?</span><span class="req">*</span></label>
             <div class="radio-row">
               <label class="radio-option"><input type="radio" name="remoteSite" value="Yes" required> <span data-i18n="radio_yes">Yes</span></label>
@@ -1158,14 +1507,14 @@
             <label for="educationSelect"><span data-i18n="label_education">Highest Level of Education</span><span class="optional" data-i18n="optional">optional</span></label>
             <select id="educationSelect">
               <option value="" selected data-i18n="opt_selectEducation">Select an option</option>
-              <option value="Primary School">Primary School</option>
-              <option value="Secondary School (CSEC/CXC)">Secondary School (CSEC/CXC)</option>
-              <option value="CAPE / A-Levels">CAPE / A-Levels</option>
-              <option value="Technical or Vocational Certificate">Technical or Vocational Certificate</option>
-              <option value="Associate Degree">Associate Degree</option>
-              <option value="Bachelor's Degree">Bachelor's Degree</option>
-              <option value="Master's Degree or Higher">Master's Degree or Higher</option>
-              <option value="Other">Other</option>
+              <option value="Primary School" data-i18n="opt_edu_primary">Primary School</option>
+              <option value="Secondary School (CSEC/CXC)" data-i18n="opt_edu_secondary">Secondary School (CSEC/CXC)</option>
+              <option value="CAPE / A-Levels" data-i18n="opt_edu_cape">CAPE / A-Levels</option>
+              <option value="Technical or Vocational Certificate" data-i18n="opt_edu_technical">Technical or Vocational Certificate</option>
+              <option value="Associate Degree" data-i18n="opt_edu_associate">Associate Degree</option>
+              <option value="Bachelor's Degree" data-i18n="opt_edu_bachelors">Bachelor's Degree</option>
+              <option value="Master's Degree or Higher" data-i18n="opt_edu_masters">Master's Degree or Higher</option>
+              <option value="Other" data-i18n="opt_other3">Other</option>
             </select>
             <div class="other-input-wrap" id="educationOtherWrap" style="display:none;">
               <input type="text" id="educationOtherInput" placeholder="Describe your education" data-i18n-placeholder="ph_education_other">
@@ -1208,7 +1557,7 @@
             <div class="file-name" id="certificationsFileNameDisplay"></div>
           </div>
           <div class="field full conditional-block" id="workAuthDocBlock" style="display:none;">
-            <label><span data-i18n="label_workAuthDocUpload">Supporting Work Authorization Document</span><span class="req">*</span></label>
+            <label><span data-i18n="label_workAuthDocUpload">Supporting Work Authorization Document</span><span class="optional" data-i18n="optional">optional</span></label>
             <p class="help-text" data-i18n="help_workAuthDocUpload">Upload your CARICOM Skills Certificate, or your Guyana work permit if you have one.</p>
             <label class="file-drop" id="workAuthDocumentDropLabel">
               <span id="workAuthDocumentDropText" data-i18n="fileDropDefault">Click to choose a file, or drag one here</span>
@@ -1232,7 +1581,7 @@
       <div class="section" data-step="6">
         <div class="section-title"><span class="section-number">6</span><span data-i18n="s4_title">Additional Details</span></div>
         <div class="field-grid">
-          <div class="field">
+          <div class="field" id="referencesAvailableBlock">
             <label><span data-i18n="label_referencesAvailable">References Available on Request?</span><span class="req">*</span></label>
             <div class="radio-row">
               <label class="radio-option"><input type="radio" name="referencesAvailable" value="Yes" required> <span data-i18n="radio_yes">Yes</span></label>
@@ -1245,6 +1594,17 @@
           </div>
         </div>
       </div>
+
+      <div class="wizard-progress-count" id="wizardProgressCount"></div>
+      <div class="wizard-nav" id="wizardNav">
+        <button type="button" class="wizard-btn wizard-btn-back" id="wizardBackBtn">&larr; <span data-i18n="wizard_back">Back</span></button>
+        <div class="wizard-nav-spacer"></div>
+        <button type="button" class="wizard-btn wizard-btn-next" id="wizardNextBtn"><span data-i18n="wizard_next">Next</span> &rarr;</button>
+      </div>
+      <div class="autosave-hint" id="autosaveHint">
+        <span>&#128190;</span><span data-i18n="autosave_hint">Your answers are saved automatically as you go — it's safe to close and come back later.</span>
+      </div>
+      <button type="button" class="clear-draft-link" id="clearDraftBtn" data-i18n="clear_draft_link">On a shared or public computer? Clear my answers</button>
 
       <input type="hidden" id="applicantLanguageField" name="applicantLanguage" value="en">
       <input type="hidden" id="jobIdField" name="jobId" value="">
@@ -1266,7 +1626,8 @@
       <input type="hidden" id="coverLetterFileMimeTypeField" name="coverLetterFileMimeType" value="">
       <input type="hidden" id="clientApplicationIdField" name="clientApplicationId" value="">
 
-      <div class="submit-bar" data-step="7">
+      <div class="submit-bar" data-step="7" id="submitBarStep">
+        <button type="button" class="wizard-btn wizard-btn-back" id="wizardBackBtnFinal" style="margin-bottom:16px;">&larr; <span data-i18n="wizard_back">Back</span></button>
         <button type="submit" class="submit-btn" id="submitBtn" data-i18n="submitBtn">Submit Application</button>
         <p class="privacy-note" data-i18n="privacyNote">Your information is shared only with PacRim for recruitment purposes. A formatted resume PDF will be generated automatically from your answers.</p>
       </div>
@@ -1290,6 +1651,9 @@
         </ul>
       </div>
       <button type="button" class="btn-secondary" id="submitAnotherBtn" data-i18n="confirm_another">Submit Another Application</button>
+      <a class="whatsapp-help confirmation-whatsapp" href="https://wa.me/5927432930" target="_blank" rel="noopener">
+        <span class="wa-icon">&#128241;</span><span data-i18n="whatsapp_help_confirm">Questions about your application? WhatsApp us at 592-743-2930</span>
+      </a>
     </div>
 
   </div>
@@ -1311,10 +1675,14 @@
   const translations = {
     en: {
       eyebrow: "PacRim Is Hiring",
+      lang_caption: "Language / Idioma",
       lang_tooltip: "Also available in Spanish · También en español",
       lang_tooltip_dismiss: "Got it",
       h1: "Apply for a Role with PacRim",
       subhead: "Submit your details below for current and upcoming openings across oil &amp; gas, mining, and renewables projects in Guyana.",
+      whatsapp_help: "Need help? WhatsApp us at 592-743-2930",
+      whatsapp_help_confirm: "Questions about your application? WhatsApp us at 592-743-2930",
+      docs_heads_up: "You'll need a photo of your <strong>ID or passport</strong> — that's the only document that's required. Everything else you can skip and come back to later.",
       tag_industrial: "Industrial",
       tag_construction: "Construction",
       tag_catering: "Catering",
@@ -1401,6 +1769,8 @@
       fileDropDefault: "Click to choose a file, or drag one here",
       fileDropChange: "Change file",
       fileSelected: "Selected: ",
+      optimizingPhoto: "Optimizing photo for a faster upload…",
+      photoOptimized: "Photo optimized: {before} → {after}, so it uploads faster.",
       submitBtn: "Submit Application",
       submitBtnLoading: "Submitting...",
       privacyNote: "Your information is shared only with PacRim for recruitment purposes. A formatted resume PDF will be generated automatically from your answers.",
@@ -1440,6 +1810,73 @@
       cert_forklift: "Forklift Operator License",
       cert_welding: "Welding Certification",
       cert_electrical: "Electrical License",
+      opt_other3: "Other",
+      opt_loc_georgetown: "Georgetown, Region 4 (Demerara-Mahaica)",
+      opt_loc_linden: "Linden, Region 10 (Upper Demerara-Berbice)",
+      opt_loc_newAmsterdam: "New Amsterdam, Region 6 (East Berbice-Corentyne)",
+      opt_loc_annaRegina: "Anna Regina, Region 2 (Pomeroon-Supenaam)",
+      opt_loc_bartica: "Bartica, Region 7 (Cuyuni-Mazaruni)",
+      opt_loc_vreedEnHoop: "Vreed-en-Hoop, Region 3 (Essequibo Islands-West Demerara)",
+      opt_loc_fortWellington: "Fort Wellington, Region 5 (Mahaica-Berbice)",
+      opt_loc_mahdia: "Mahdia, Region 8 (Potaro-Siparuni)",
+      opt_loc_lethem: "Lethem, Region 9 (Upper Takutu-Upper Essequibo)",
+      opt_loc_mabaruma: "Mabaruma, Region 1 (Barima-Waini)",
+      opt_c_antigua: "Antigua and Barbuda",
+      opt_c_bahamas: "Bahamas",
+      opt_c_barbados: "Barbados",
+      opt_c_belize: "Belize",
+      opt_c_dominica: "Dominica",
+      opt_c_grenada: "Grenada",
+      opt_c_haiti: "Haiti",
+      opt_c_jamaica: "Jamaica",
+      opt_c_montserrat: "Montserrat",
+      opt_c_stKitts: "Saint Kitts and Nevis",
+      opt_c_stLucia: "Saint Lucia",
+      opt_c_stVincent: "Saint Vincent and the Grenadines",
+      opt_c_suriname: "Suriname",
+      opt_c_trinidad: "Trinidad and Tobago",
+      opt_jt_welder: "Welder",
+      opt_jt_scaffolder: "Scaffolder",
+      opt_jt_electrician: "Electrician",
+      opt_jt_heavyEquipOperator: "Heavy Equipment Operator",
+      opt_jt_craneOperator: "Crane Operator",
+      opt_jt_rigger: "Rigger",
+      opt_jt_pipefitter: "Pipefitter",
+      opt_jt_mechanic: "Mechanic",
+      opt_jt_plumber: "Plumber",
+      opt_jt_carpenter: "Carpenter",
+      opt_jt_painter: "Painter",
+      opt_jt_campCook: "Camp Cook",
+      opt_jt_cateringAssistant: "Catering Assistant",
+      opt_jt_housekeeping: "Housekeeping / Custodial",
+      opt_jt_logisticsCoordinator: "Logistics Coordinator",
+      opt_jt_warehouseAssociate: "Warehouse Associate",
+      opt_jt_truckDriver: "Truck Driver",
+      opt_jt_safetyOfficer: "Safety Officer (HSE)",
+      opt_jt_siteSupervisor: "Site Supervisor",
+      opt_jt_adminAssistant: "Administrative Assistant",
+      opt_jt_securityGuard: "Security Guard",
+      opt_jt_generalLaborer: "General Laborer",
+      opt_edu_primary: "Primary School",
+      opt_edu_secondary: "Secondary School (CSEC/CXC)",
+      opt_edu_cape: "CAPE / A-Levels",
+      opt_edu_technical: "Technical or Vocational Certificate",
+      opt_edu_associate: "Associate Degree",
+      opt_edu_bachelors: "Bachelor's Degree",
+      opt_edu_masters: "Master's Degree or Higher",
+      wizard_next: "Next",
+      wizard_back: "Back",
+      wizard_question_label: "Question {n} of {total}",
+      err_required: "This field can't be empty.",
+      err_required_choice: "Please choose one of the options.",
+      err_invalid_email: "Please enter a valid email address, like name@example.com.",
+      err_invalid_phone: "Please enter a valid phone number.",
+      err_required_file: "Please attach a file to continue.",
+      err_required_skills_short: "Please select at least one skill.",
+      autosave_hint: "Your answers are saved automatically as you go \u2014 it's safe to close and come back later.",
+      clear_draft_link: "On a shared or public computer? Clear my answers",
+      clear_draft_confirm: "This will erase everything you've entered on this device, including any files you've attached. This can't be undone. Continue?",
+      clear_draft_done: "Your answers have been cleared from this device.",
       step_label: "Step {n} of {total}",
       err_fileTooLarge: "\"{name}\" is too large (over 8MB). Please choose a smaller file.",
       warn_fileLarge: "\"{name}\" is a large file — upload may take longer on a slow connection.",
@@ -1458,10 +1895,14 @@
     },
     es: {
       eyebrow: "PacRim est\u00e1 contratando",
-      lang_tooltip: "Tambi\u00e9n disponible en espa\u00f1ol · Also available in Spanish",
+      lang_caption: "Idioma / Language",
+      lang_tooltip: "También disponible en español · Also available in Spanish",
       lang_tooltip_dismiss: "Entendido",
       h1: "Solicita un empleo con PacRim",
-      subhead: "Env\u00eda tus datos a continuaci\u00f3n para las vacantes actuales y futuras en proyectos de petr\u00f3leo y gas, miner\u00eda y energ\u00edas renovables en Guyana.",
+      subhead: "Envía tus datos a continuación para las vacantes actuales y futuras en proyectos de petróleo y gas, minería y energías renovables en Guyana.",
+      whatsapp_help: "¿Necesita ayuda? Escríbanos por WhatsApp al 592-743-2930",
+      whatsapp_help_confirm: "¿Preguntas sobre su solicitud? Escríbanos por WhatsApp al 592-743-2930",
+      docs_heads_up: "Necesitará una foto de su <strong>identificación o pasaporte</strong> — ese es el único documento obligatorio. Todo lo demás puede omitirlo y completarlo más tarde.",
       tag_industrial: "Industrial",
       tag_construction: "Construcci\u00f3n",
       tag_catering: "Catering",
@@ -1545,9 +1986,11 @@
       label_resumeUpload: "Subir curr\u00edculum existente",
       optional_pdfWord: "opcional, se prefiere PDF o Word",
       optional: "opcional",
-      fileDropDefault: "Haga clic para elegir un archivo, o arr\u00e1strelo aqu\u00ed",
+      fileDropDefault: "Haga clic para elegir un archivo, o arrástrelo aquí",
       fileDropChange: "Cambiar archivo",
       fileSelected: "Seleccionado: ",
+      optimizingPhoto: "Optimizando la foto para una carga más rápida…",
+      photoOptimized: "Foto optimizada: {before} → {after}, para que se cargue más rápido.",
       submitBtn: "Enviar solicitud",
       submitBtnLoading: "Enviando...",
       privacyNote: "Su informaci\u00f3n se comparte \u00fanicamente con PacRim para fines de contrataci\u00f3n. Se generar\u00e1 autom\u00e1ticamente un curr\u00edculum en PDF con formato a partir de sus respuestas.",
@@ -1586,7 +2029,74 @@
       cert_firstAid: "Primeros auxilios / RCP",
       cert_forklift: "Licencia de operador de montacargas",
       cert_welding: "Certificaci\u00f3n de soldadura",
-      cert_electrical: "Licencia el\u00e9ctrica",
+      cert_electrical: "Licencia eléctrica",
+      opt_other3: "Otro",
+      opt_loc_georgetown: "Georgetown, Región 4 (Demerara-Mahaica)",
+      opt_loc_linden: "Linden, Región 10 (Alto Demerara-Berbice)",
+      opt_loc_newAmsterdam: "New Amsterdam, Región 6 (Berbice Oriental-Corentyne)",
+      opt_loc_annaRegina: "Anna Regina, Región 2 (Pomeroon-Supenaam)",
+      opt_loc_bartica: "Bartica, Región 7 (Cuyuni-Mazaruni)",
+      opt_loc_vreedEnHoop: "Vreed-en-Hoop, Región 3 (Islas Essequibo-Demerara Occidental)",
+      opt_loc_fortWellington: "Fort Wellington, Región 5 (Mahaica-Berbice)",
+      opt_loc_mahdia: "Mahdia, Región 8 (Potaro-Siparuni)",
+      opt_loc_lethem: "Lethem, Región 9 (Alto Takutu-Alto Essequibo)",
+      opt_loc_mabaruma: "Mabaruma, Región 1 (Barima-Waini)",
+      opt_c_antigua: "Antigua y Barbuda",
+      opt_c_bahamas: "Bahamas",
+      opt_c_barbados: "Barbados",
+      opt_c_belize: "Belice",
+      opt_c_dominica: "Dominica",
+      opt_c_grenada: "Granada",
+      opt_c_haiti: "Haití",
+      opt_c_jamaica: "Jamaica",
+      opt_c_montserrat: "Montserrat",
+      opt_c_stKitts: "San Cristóbal y Nieves",
+      opt_c_stLucia: "Santa Lucía",
+      opt_c_stVincent: "San Vicente y las Granadinas",
+      opt_c_suriname: "Surinam",
+      opt_c_trinidad: "Trinidad y Tobago",
+      opt_jt_welder: "Soldador/a",
+      opt_jt_scaffolder: "Andamiero/a",
+      opt_jt_electrician: "Electricista",
+      opt_jt_heavyEquipOperator: "Operador/a de equipo pesado",
+      opt_jt_craneOperator: "Operador/a de grúa",
+      opt_jt_rigger: "Aparejador/a",
+      opt_jt_pipefitter: "Tubero/a industrial",
+      opt_jt_mechanic: "Mecánico/a",
+      opt_jt_plumber: "Plomero/a",
+      opt_jt_carpenter: "Carpintero/a",
+      opt_jt_painter: "Pintor/a",
+      opt_jt_campCook: "Cocinero/a de campamento",
+      opt_jt_cateringAssistant: "Asistente de catering",
+      opt_jt_housekeeping: "Limpieza / Servicios generales",
+      opt_jt_logisticsCoordinator: "Coordinador/a de logística",
+      opt_jt_warehouseAssociate: "Auxiliar de almacén",
+      opt_jt_truckDriver: "Conductor/a de camión",
+      opt_jt_safetyOfficer: "Oficial de seguridad (HSE)",
+      opt_jt_siteSupervisor: "Supervisor/a de sitio",
+      opt_jt_adminAssistant: "Asistente administrativo/a",
+      opt_jt_securityGuard: "Guardia de seguridad",
+      opt_jt_generalLaborer: "Obrero/a general",
+      opt_edu_primary: "Escuela primaria",
+      opt_edu_secondary: "Escuela secundaria (CSEC/CXC)",
+      opt_edu_cape: "CAPE / Nivel A",
+      opt_edu_technical: "Certificado técnico o vocacional",
+      opt_edu_associate: "Título asociado",
+      opt_edu_bachelors: "Licenciatura",
+      opt_edu_masters: "Maestría o superior",
+      wizard_next: "Siguiente",
+      wizard_back: "Atrás",
+      wizard_question_label: "Pregunta {n} de {total}",
+      err_required: "Este campo no puede quedar vacío.",
+      err_required_choice: "Por favor elija una de las opciones.",
+      err_invalid_email: "Ingrese un correo electrónico válido, como nombre@ejemplo.com.",
+      err_invalid_phone: "Ingrese un número de teléfono válido.",
+      err_required_file: "Adjunte un archivo para continuar.",
+      err_required_skills_short: "Seleccione al menos una habilidad.",
+      autosave_hint: "Sus respuestas se guardan automáticamente a medida que avanza — puede cerrar y volver más tarde sin perderlas.",
+      clear_draft_link: "¿Está en una computadora compartida o pública? Borre mis respuestas",
+      clear_draft_confirm: "Esto borrará todo lo que ha ingresado en este dispositivo, incluyendo los archivos adjuntos. Esta acción no se puede deshacer. ¿Desea continuar?",
+      clear_draft_done: "Sus respuestas han sido borradas de este dispositivo.",
       step_label: "Paso {n} de {total}",
       err_fileTooLarge: "\"{name}\" es demasiado grande (m\u00e1s de 8MB). Elija un archivo m\u00e1s peque\u00f1o.",
       warn_fileLarge: "\"{name}\" es un archivo grande \u2014 la carga puede tardar m\u00e1s con una conexi\u00f3n lenta.",
@@ -1626,7 +2136,7 @@
     fileDropFields.forEach(f => {
       if (f.input.files.length > 0) {
         f.dropText.textContent = dict.fileDropChange;
-        f.nameDisplay.textContent = dict.fileSelected + f.input.files[0].name;
+        f.nameDisplay.textContent = dict.fileSelected + f.input.files[0].name + ' (' + formatFileSize(f.input.files[0].size) + ')';
       }
     });
 
@@ -1639,6 +2149,46 @@
 
   document.getElementById('langBtnEn').addEventListener('click', () => applyLanguage('en'));
   document.getElementById('langBtnEs').addEventListener('click', () => applyLanguage('es'));
+
+  // ---- First-visit language gate ----
+  // Shown only when nobody has ever picked a language on this device —
+  // this is the main fix for people missing the small EN/ES toggle
+  // and getting stuck partway through an English form.
+  const langGate = document.getElementById('langGate');
+  const langGateEn = document.getElementById('langGateEn');
+  const langGateEs = document.getElementById('langGateEs');
+  const langGateFocusable = [langGateEn, langGateEs];
+
+  if (!localStorage.getItem('pacrimLang')) {
+    langGate.style.display = 'flex';
+    setTimeout(() => { try { langGateEn.focus(); } catch (e) {} }, 50);
+  }
+  function chooseLangFromGate(lang) {
+    applyLanguage(lang);
+    langGate.style.display = 'none';
+    try { localStorage.setItem('pacrimLangTooltipSeen', '1'); } catch (e) {}
+    if (typeof dismissLangTooltip === 'function') dismissLangTooltip();
+    // Hand keyboard focus off to the form itself once the gate closes
+    const firstField = document.getElementById('fullName');
+    if (firstField) { try { firstField.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  langGateEn.addEventListener('click', () => chooseLangFromGate('en'));
+  langGateEs.addEventListener('click', () => chooseLangFromGate('es'));
+
+  // Trap Tab focus inside the gate while it's open, so keyboard and
+  // screen-reader users can't tab into the page behind it before choosing.
+  document.addEventListener('keydown', (e) => {
+    if (langGate.style.display === 'none' || e.key !== 'Tab') return;
+    const first = langGateFocusable[0];
+    const last = langGateFocusable[langGateFocusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
 
   const form = document.getElementById('applicationForm');
   const submitBtn = document.getElementById('submitBtn');
@@ -1661,25 +2211,87 @@
   const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB hard limit
   const WARN_FILE_SIZE = 5 * 1024 * 1024; // 5MB soft warning
 
-  fileDropFields.forEach(f => {
-    f.input.addEventListener('change', () => {
-      if (f.input.files.length > 0) {
-        const file = f.input.files[0];
+  function formatFileSize(bytes) {
+    if (bytes < 1024 * 1024) return Math.max(1, Math.round(bytes / 1024)) + 'KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + 'MB';
+  }
 
-        if (file.size > MAX_FILE_SIZE) {
-          showStatus('error', translations[currentLang].err_fileTooLarge.replace('{name}', file.name));
-          f.input.value = '';
-          f.nameDisplay.textContent = '';
-          f.dropText.textContent = translations[currentLang].fileDropDefault;
+  // Phone camera photos are routinely 3-10MB. On a slow connection that's
+  // the difference between a submission taking seconds vs. minutes (or
+  // timing out). Downscale + re-compress images client-side before they're
+  // ever attached — PDFs and already-small files are left untouched.
+  function compressImageFile(file, maxDim, quality) {
+    maxDim = maxDim || 1600;
+    quality = quality || 0.72;
+    return new Promise((resolve) => {
+      if (!file.type || !file.type.startsWith('image/') || file.type === 'image/gif') {
+        resolve(file);
+        return;
+      }
+      const objectUrl = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        const width = img.naturalWidth || img.width;
+        const height = img.naturalHeight || img.height;
+        if (!width || !height) { resolve(file); return; }
+        // Already small — don't re-encode and lose quality for nothing
+        if (width <= maxDim && height <= maxDim && file.size <= 900 * 1024) {
+          resolve(file);
           return;
         }
-        if (file.size > WARN_FILE_SIZE) {
-          showStatus('warning', translations[currentLang].warn_fileLarge.replace('{name}', file.name));
-        }
+        const scale = Math.min(1, maxDim / Math.max(width, height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(width * scale);
+        canvas.height = Math.round(height * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => {
+          if (!blob || blob.size >= file.size) { resolve(file); return; }
+          const newName = file.name.replace(/\.(png|heic|heif|webp)$/i, '.jpg');
+          resolve(new File([blob], newName, { type: 'image/jpeg', lastModified: Date.now() }));
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); resolve(file); };
+      img.src = objectUrl;
+    });
+  }
 
-        f.nameDisplay.textContent = translations[currentLang].fileSelected + file.name;
-        f.dropText.textContent = translations[currentLang].fileDropChange;
+  fileDropFields.forEach(f => {
+    f.input.addEventListener('change', async () => {
+      if (f.input.files.length === 0) return;
+      let file = f.input.files[0];
+      const originalSize = file.size;
+
+      if (file.type && file.type.startsWith('image/')) {
+        f.nameDisplay.textContent = translations[currentLang].optimizingPhoto;
+        try {
+          const compressed = await compressImageFile(file);
+          if (compressed !== file && typeof DataTransfer !== 'undefined') {
+            const dt = new DataTransfer();
+            dt.items.add(compressed);
+            f.input.files = dt.files;
+            file = compressed;
+          }
+        } catch (err) { /* fall back silently to the original file */ }
       }
+
+      if (file.size > MAX_FILE_SIZE) {
+        showStatus('error', translations[currentLang].err_fileTooLarge.replace('{name}', file.name));
+        f.input.value = '';
+        f.nameDisplay.textContent = '';
+        f.dropText.textContent = translations[currentLang].fileDropDefault;
+        return;
+      }
+      if (file.size > WARN_FILE_SIZE) {
+        showStatus('warning', translations[currentLang].warn_fileLarge.replace('{name}', file.name));
+      } else if (originalSize > file.size * 1.15 && originalSize > 900 * 1024) {
+        showStatus('success', translations[currentLang].photoOptimized
+          .replace('{before}', formatFileSize(originalSize)).replace('{after}', formatFileSize(file.size)));
+      }
+
+      f.nameDisplay.textContent = translations[currentLang].fileSelected + file.name + ' (' + formatFileSize(file.size) + ')';
+      f.dropText.textContent = translations[currentLang].fileDropChange;
     });
   });
 
@@ -1877,7 +2489,6 @@
     caricomCountryBlock.style.display = isCaricom ? '' : 'none';
     workPermitBlock.style.display = isForeign ? '' : 'none';
     workAuthDocBlock.style.display = (isCaricom || isForeign) ? '' : 'none';
-    workAuthDocumentFile.required = (isCaricom || isForeign);
 
     document.querySelectorAll('input[name="caricomSkillsCertificate"]').forEach(r => r.required = isCaricom);
     document.querySelectorAll('input[name="workPermitStatus"]').forEach(r => r.required = isForeign);
@@ -2025,59 +2636,272 @@
     form.style.display = '';
     form.reset();
     updateWorkAuthVisibility();
-    updateProgress();
+    resetWizardToStart();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // ---- Scroll-reveal for section panels ----
-  const revealTargets = document.querySelectorAll('.section, .submit-bar');
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    revealTargets.forEach(el => revealObserver.observe(el));
-  } else {
-    revealTargets.forEach(el => el.classList.add('in-view'));
+  // ---- Clear saved answers (for shared/public computers) ----
+  document.getElementById('clearDraftBtn').addEventListener('click', () => {
+    const dict = translations[currentLang];
+    if (!window.confirm(dict.clear_draft_confirm)) return;
+    form.reset();
+    fileDropFields.forEach(f => {
+      f.dropText.textContent = dict.fileDropDefault;
+      f.nameDisplay.textContent = '';
+    });
+    clearDraft();
+    updateWorkAuthVisibility();
+    resetWizardToStart();
+    showStatus('warning', dict.clear_draft_done);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ==========================================================
+  // ---- One-question-at-a-time wizard ----
+  // Each entry below is the id of either a form control or a
+  // conditional-block wrapper div. At runtime we resolve each to
+  // its containing .field / .conditional-block element, which
+  // becomes one "screen" the applicant sees. Order here is the
+  // same order the fields already appear in the form, so nothing
+  // about validation, autosave, or the Apps Script payload changes
+  // — we're only changing how many fields are visible at once.
+  // ==========================================================
+  const WIZARD_ANCHOR_IDS = [
+    'fullName', 'email', 'phone', 'locationSelect',
+    'nationalityStatus', 'caricomBlock', 'caricomCountryBlock',
+    'workPermitBlock', 'permitExpiryBlock', 'sponsorshipBlock',
+    'roleCategory', 'jobTitleSelect', 'yearsExperience', 'availability', 'remoteSiteBlock',
+    'workHistory', 'keySkillsGroup', 'certificationsGroup', 'educationSelect',
+    'resumeFile', 'idDocumentFile', 'certificationsFileInput', 'workAuthDocBlock', 'coverLetterFileInput',
+    'referencesAvailableBlock', 'additionalNotes'
+  ];
+
+  function resolveWizardStepEl(id) {
+    const anchorEl = document.getElementById(id);
+    if (!anchorEl) return null;
+    if (anchorEl.classList && anchorEl.classList.contains('field')) return anchorEl;
+    return anchorEl.closest('.field') || anchorEl.closest('.conditional-block');
   }
 
-  // ---- Sticky progress indicator (Step X of 6) ----
-  const TOTAL_STEPS = 6;
+  const wizardStepEls = WIZARD_ANCHOR_IDS.map(resolveWizardStepEl).filter(Boolean);
+
+  let currentStepIndex = 0;
+  let atSubmitStep = false;
+  let activeTooltips = [];
+
   const progressLabel = document.getElementById('progressLabel');
   const progressFill = document.getElementById('progressFill');
-  const stepSections = Array.from(document.querySelectorAll('.section[data-step]'));
+  const wizardProgressCount = document.getElementById('wizardProgressCount');
+  const wizardNav = document.getElementById('wizardNav');
+  const autosaveHint = document.getElementById('autosaveHint');
+  const submitBarStep = document.getElementById('submitBarStep');
+  const wizardBackBtn = document.getElementById('wizardBackBtn');
+  const wizardNextBtn = document.getElementById('wizardNextBtn');
 
-  function updateProgress() {
-    const viewportMarker = window.innerHeight * 0.35;
-    let currentStep = 1;
-    stepSections.forEach(section => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= viewportMarker) {
-        currentStep = parseInt(section.getAttribute('data-step'), 10);
-      }
-    });
-    progressLabel.textContent = translations[currentLang].step_label
-      .replace('{n}', currentStep).replace('{total}', TOTAL_STEPS);
-    progressFill.style.width = ((currentStep / TOTAL_STEPS) * 100) + '%';
+  function eligibleStepIndices() {
+    return wizardStepEls
+      .map((el, i) => i)
+      .filter(i => wizardStepEls[i].style.display !== 'none');
   }
 
-  let progressTicking = false;
-  window.addEventListener('scroll', () => {
-    if (!progressTicking) {
-      window.requestAnimationFrame(() => {
-        updateProgress();
-        progressTicking = false;
-      });
-      progressTicking = true;
+  // ---- Speech-bubble validation tooltips ----
+  function clearAllTooltips() {
+    activeTooltips.forEach(t => t.el.remove());
+    activeTooltips = [];
+    document.querySelectorAll('.field-invalid').forEach(f => f.classList.remove('field-invalid'));
+  }
+
+  function showFieldTooltip(anchorEl, message) {
+    if (!anchorEl) return;
+    const fieldWrap = anchorEl.closest ? (anchorEl.closest('.field') || anchorEl.closest('.conditional-block')) : null;
+    if (fieldWrap) fieldWrap.classList.add('field-invalid');
+
+    const tip = document.createElement('div');
+    tip.className = 'field-tooltip tt-below';
+    tip.setAttribute('role', 'alert');
+    tip.textContent = message;
+    document.body.appendChild(tip);
+
+    const rect = anchorEl.getBoundingClientRect();
+    let top = rect.bottom + window.scrollY + 10;
+    let left = rect.left + window.scrollX;
+    const maxLeft = window.scrollX + document.documentElement.clientWidth - tip.offsetWidth - 16;
+    left = Math.max(window.scrollX + 8, Math.min(left, maxLeft));
+    // If the bubble would run off the bottom of the viewport, point it upward instead
+    if (rect.bottom + 60 > window.innerHeight) {
+      tip.classList.remove('tt-below');
+      tip.classList.add('tt-above');
+      top = rect.top + window.scrollY - tip.offsetHeight - 10;
+    }
+    tip.style.top = top + 'px';
+    tip.style.left = left + 'px';
+
+    const entry = { el: tip, fieldWrap };
+    activeTooltips.push(entry);
+
+    const dismiss = () => {
+      tip.remove();
+      if (fieldWrap) fieldWrap.classList.remove('field-invalid');
+      activeTooltips = activeTooltips.filter(t => t !== entry);
+    };
+    if (anchorEl.matches && anchorEl.matches('input, select, textarea')) {
+      anchorEl.addEventListener('input', dismiss, { once: true });
+      anchorEl.addEventListener('change', dismiss, { once: true });
+    } else {
+      anchorEl.addEventListener('change', dismiss, { once: true, capture: true });
+      anchorEl.addEventListener('click', dismiss, { once: true, capture: true });
+    }
+  }
+
+  function validateWizardStep(stepEl) {
+    clearAllTooltips();
+    let valid = true;
+    const dict = translations[currentLang];
+    const controls = Array.from(stepEl.querySelectorAll('input, select, textarea')).filter(c => c.type !== 'hidden' && !c.disabled);
+    const seenRadioNames = new Set();
+
+    controls.forEach(ctrl => {
+      if (ctrl.type === 'radio') {
+        if (seenRadioNames.has(ctrl.name)) return;
+        seenRadioNames.add(ctrl.name);
+        if (ctrl.required) {
+          const anyChecked = stepEl.querySelector('input[name="' + ctrl.name + '"]:checked');
+          if (!anyChecked) {
+            valid = false;
+            showFieldTooltip(stepEl.querySelector('.radio-row') || ctrl, dict.err_required_choice);
+          }
+        }
+        return;
+      }
+      if (ctrl.type === 'checkbox' || ctrl.type === 'file') return; // handled separately below
+      if (!ctrl.checkValidity()) {
+        valid = false;
+        let msg = dict.err_required;
+        if (ctrl.validity.typeMismatch && ctrl.type === 'email') msg = dict.err_invalid_email;
+        else if (ctrl.validity.typeMismatch && ctrl.type === 'tel') msg = dict.err_invalid_phone;
+        else if (ctrl.tagName === 'SELECT') msg = dict.err_required_choice;
+        showFieldTooltip(ctrl, msg);
+      }
+    });
+
+    // File-required fields (only Government ID / Passport is required — all other uploads are optional)
+    stepEl.querySelectorAll('input[type="file"][required]').forEach(fileInput => {
+      if (fileInput.files.length === 0) {
+        valid = false;
+        showFieldTooltip(fileInput.closest('.file-drop') || fileInput, dict.err_required_file);
+      }
+    });
+
+    // Key Skills checkbox group is required, tracked via its hidden mirror field
+    if (stepEl.querySelector('#keySkillsGroup')) {
+      const keySkillsField = document.getElementById('keySkills');
+      if (!keySkillsField.value.trim()) {
+        valid = false;
+        showFieldTooltip(document.getElementById('keySkillsGroup'), dict.err_required_skills_short);
+      }
+    }
+
+    return valid;
+  }
+
+  function renderWizardStep() {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('wizard-section-active'));
+    wizardStepEls.forEach(el => el.classList.remove('wizard-field-active'));
+    clearAllTooltips();
+
+    if (atSubmitStep) {
+      wizardNav.style.display = 'none';
+      autosaveHint.style.display = 'none';
+      wizardProgressCount.textContent = '';
+      submitBarStep.style.display = '';
+      progressFill.style.width = '100%';
+      progressLabel.textContent = translations[currentLang].step_label.replace('{n}', wizardStepEls.length).replace('{total}', wizardStepEls.length);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    submitBarStep.style.display = 'none';
+    wizardNav.style.display = '';
+    autosaveHint.style.display = '';
+
+    const stepEl = wizardStepEls[currentStepIndex];
+    stepEl.classList.add('wizard-field-active');
+    const section = stepEl.closest('.section');
+    if (section) section.classList.add('wizard-section-active');
+
+    const eligible = eligibleStepIndices();
+    const pos = eligible.indexOf(currentStepIndex) + 1;
+    const total = eligible.length;
+
+    wizardProgressCount.textContent = translations[currentLang].wizard_question_label.replace('{n}', pos).replace('{total}', total);
+    progressLabel.textContent = translations[currentLang].step_label.replace('{n}', pos).replace('{total}', total);
+    progressFill.style.width = (total ? (pos / total) * 100 : 0) + '%';
+
+    wizardBackBtn.style.visibility = (eligible[0] === currentStepIndex) ? 'hidden' : 'visible';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Focus the first real input on this step for keyboard/screen-reader users
+    const firstField = stepEl.querySelector('input:not([type="hidden"]), select, textarea');
+    if (firstField) { try { firstField.focus({ preventScroll: true }); } catch (e) {} }
+  }
+
+  function goToNextStep() {
+    const stepEl = wizardStepEls[currentStepIndex];
+    if (!validateWizardStep(stepEl)) return;
+    const eligible = eligibleStepIndices();
+    const pos = eligible.indexOf(currentStepIndex);
+    if (pos === eligible.length - 1) {
+      atSubmitStep = true;
+    } else {
+      currentStepIndex = eligible[pos + 1];
+    }
+    renderWizardStep();
+  }
+
+  function goToPrevStep() {
+    if (atSubmitStep) {
+      atSubmitStep = false;
+      renderWizardStep();
+      return;
+    }
+    const eligible = eligibleStepIndices();
+    const pos = eligible.indexOf(currentStepIndex);
+    if (pos > 0) {
+      currentStepIndex = eligible[pos - 1];
+      renderWizardStep();
+    }
+  }
+
+  function resetWizardToStart() {
+    currentStepIndex = eligibleStepIndices()[0] || 0;
+    atSubmitStep = false;
+    renderWizardStep();
+  }
+
+  wizardNextBtn.addEventListener('click', goToNextStep);
+  wizardBackBtn.addEventListener('click', goToPrevStep);
+  document.getElementById('wizardBackBtnFinal').addEventListener('click', goToPrevStep);
+
+  // Enter key advances to the next question instead of submitting early
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !atSubmitStep && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      goToNextStep();
     }
   });
-  updateProgress();
-  document.getElementById('langBtnEn').addEventListener('click', updateProgress);
-  document.getElementById('langBtnEs').addEventListener('click', updateProgress);
+
+  document.body.classList.add('wizard-mode');
+  currentStepIndex = eligibleStepIndices()[0] || 0;
+  renderWizardStep();
+
+  document.getElementById('langBtnEn').addEventListener('click', renderWizardStep);
+  document.getElementById('langBtnEs').addEventListener('click', renderWizardStep);
+
+  // Re-count remaining questions whenever an answer changes which
+  // conditional questions are relevant (without moving the current step)
+  document.getElementById('nationalityStatus').addEventListener('change', renderWizardStep);
+  document.querySelectorAll('input[name="workPermitStatus"]').forEach(r => r.addEventListener('change', renderWizardStep));
 
   // ---- Language switch tooltip nudge (first-time visitors only) ----
   const langSwitch = document.getElementById('langSwitch');
@@ -2226,7 +3050,7 @@
 
   if (restoreDraft()) {
     showStatus('warning', translations[currentLang].draft_restored);
-    updateProgress();
+    resetWizardToStart();
   }
 </script>
 
